@@ -1,39 +1,1187 @@
-export default async function handler(req, res) {
-  try {
-    const apiKey = process.env.GEMINI_API_KEY;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DreamTales — AI Bedtime Stories for Kids</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#090b18;--card:#12152a;--card2:#181c32;
+  --bdr:rgba(255,255,255,0.07);
+  --gold:#f6da7e;--gold2:#e9c558;
+  --lav:#b49ffc;--teal:#5eead4;--rose:#f9a8d4;
+  --txt:#eef0ff;--mut:#7880b0;
+  --r:16px;
+  --fs:'Lora',Georgia,serif;
+  --fu:'Nunito',system-ui,sans-serif;
+}
+body{background:var(--bg);color:var(--txt);font-family:var(--fu);min-height:100vh;overflow-x:hidden;transition:background 1.8s ease}
 
-    const { name, age, animal, len, wish, lang } = req.body;
+/* THEME BG */
+body.t-adventure {background:linear-gradient(158deg,#0b1a10 0%,#0d2218 60%,#0b1a10 100%)}
+body.t-magic     {background:linear-gradient(158deg,#130d26 0%,#1c0e38 60%,#130d26 100%)}
+body.t-space     {background:linear-gradient(158deg,#06091a 0%,#08102c 60%,#06091a 100%)}
+body.t-ocean     {background:linear-gradient(158deg,#060e1c 0%,#07192b 60%,#060e1c 100%)}
+body.t-jungle    {background:linear-gradient(158deg,#08130a 0%,#0e1f0e 60%,#08130a 100%)}
+body.t-friendship{background:linear-gradient(158deg,#180b18 0%,#240d24 60%,#180b18 100%)}
+body.t-kindness  {background:linear-gradient(158deg,#181108 0%,#24190a 60%,#181108 100%)}
+body.t-dreams    {background:linear-gradient(158deg,#0a0b20 0%,#120d2c 60%,#0a0b20 100%)}
 
-    const prompt = `
-Create a bedtime story for ${name}, age ${age}.
-Character: ${animal}
-Language: ${lang}
-Length: ${len}
-Extra: ${wish}
-`;
+/* STARS */
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0}
+.star{position:absolute;border-radius:50%;background:#fff;animation:tw var(--d,3s) ease-in-out infinite var(--dl,0s)}
+@keyframes tw{0%,100%{opacity:.07}50%{opacity:.72}}
 
-    const response = await fetch(
-     const res = await fetch('/api/story', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ name, age, animal, len, wish, lang })
+/* FLOATIES */
+.floaties{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.floaty{position:absolute;bottom:-60px;font-size:1.4rem;opacity:0;animation:fup var(--fd,14s) ease-in infinite var(--fdl,0s)}
+@keyframes fup{0%{opacity:0;transform:translateY(0) scale(.85)}8%{opacity:.16}88%{opacity:.11}100%{opacity:0;transform:translateY(-108vh) scale(1.08)}}
+
+/* LAYOUT */
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 1.5rem 6rem}
+
+/* NAV */
+nav{display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0;border-bottom:1px solid var(--bdr);margin-bottom:3rem}
+.logo{font-family:var(--fs);font-size:1.6rem;color:var(--gold);letter-spacing:-.3px}
+.logo span{color:var(--lav)}
+#badge{background:rgba(180,159,252,.13);border:1px solid rgba(180,159,252,.28);color:var(--lav);font-size:.77rem;font-weight:900;padding:.42rem 1.1rem;border-radius:100px;letter-spacing:.3px;white-space:nowrap}
+
+/* HERO */
+.hero{text-align:center;margin-bottom:3.5rem}
+.hmoon{font-size:4rem;display:block;margin-bottom:1.1rem;animation:bob 4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-11px)}}
+h1{font-family:var(--fs);font-size:clamp(2rem,5vw,3.5rem);line-height:1.13;letter-spacing:-.5px;margin-bottom:1.1rem}
+h1 em{color:var(--gold);font-style:normal}
+.hsub{color:var(--mut);font-size:1rem;line-height:1.8;max-width:540px;margin:0 auto}
+
+/* FORM */
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:2.4rem;margin-bottom:2rem}
+.ctitle{font-family:var(--fs);font-size:1.15rem;color:var(--gold);margin-bottom:1.7rem;display:flex;align-items:center;gap:8px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
+@media(max-width:540px){.g2{grid-template-columns:1fr}}
+.fld{display:flex;flex-direction:column;gap:.42rem}
+.fld.full{grid-column:1/-1}
+.fld label{font-size:.75rem;font-weight:900;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+input,select{background:var(--card2);border:1px solid var(--bdr);border-radius:9px;color:var(--txt);font-family:var(--fu);font-size:.95rem;padding:.74rem 1rem;outline:none;transition:border-color .2s}
+input:focus,select:focus{border-color:var(--lav)}
+input::placeholder{color:#333860}
+select option{background:#181c32}
+
+/* PILLS */
+.pills{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.3rem}
+.pill{padding:.36rem .9rem;border-radius:100px;border:1px solid var(--bdr);background:var(--card2);color:var(--mut);font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s;user-select:none}
+.pill:hover{border-color:var(--lav);color:var(--lav)}
+.pill.on{background:rgba(180,159,252,.16);border-color:var(--lav);color:var(--lav)}
+
+/* GEN BTN */
+.genbtn{width:100%;margin-top:1.4rem;padding:1.08rem;background:linear-gradient(135deg,var(--lav),#7c3aed);color:#fff;border:none;border-radius:11px;font-family:var(--fu);font-size:1.02rem;font-weight:900;cursor:pointer;transition:opacity .2s,transform .15s;display:flex;align-items:center;justify-content:center;gap:9px;letter-spacing:.2px}
+.genbtn:hover{opacity:.87}
+.genbtn:active{transform:scale(.99)}
+.genbtn:disabled{opacity:.42;cursor:not-allowed}
+
+/* LOADER */
+.loader{display:none;text-align:center;padding:3rem;color:var(--mut)}
+.loader.on{display:block}
+.dots{display:flex;justify-content:center;gap:9px;margin-bottom:1.1rem}
+.dots span{width:11px;height:11px;background:var(--lav);border-radius:50%;animation:dot 1.3s ease-in-out infinite}
+.dots span:nth-child(2){animation-delay:.22s}
+.dots span:nth-child(3){animation-delay:.44s}
+@keyframes dot{0%,80%,100%{transform:scale(.5);opacity:.28}40%{transform:scale(1);opacity:1}}
+#loadtxt{font-size:.96rem;line-height:1.7}
+
+/* STORY OUTPUT */
+.sout{display:none;background:var(--card);border:1px solid rgba(246,218,126,.18);border-radius:var(--r);padding:2.4rem;animation:rise .55s ease}
+.sout.on{display:block}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.shead{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.6rem;gap:1rem;flex-wrap:wrap}
+.shead h2{font-family:var(--fs);font-size:1.5rem;color:var(--gold);margin-bottom:.28rem}
+.shead p{font-size:.78rem;color:var(--mut)}
+.acts{display:flex;gap:.5rem;flex-shrink:0}
+.abtn{padding:.44rem .92rem;border-radius:8px;font-size:.8rem;font-weight:800;cursor:pointer;border:1px solid var(--bdr);background:var(--card2);color:var(--txt);font-family:var(--fu);transition:border-color .2s,color .2s}
+.abtn:hover{border-color:var(--gold);color:var(--gold)}
+.sbody{font-family:var(--fs);font-size:1.07rem;line-height:2.1;color:#dce0fa;white-space:pre-wrap;margin-bottom:2.2rem}
+
+/* PLAYER */
+.player{background:var(--card2);border:1px solid var(--bdr);border-radius:14px;padding:1.6rem 1.7rem}
+.ptop{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.3rem;flex-wrap:wrap;gap:.8rem}
+.ptop h4{font-size:.75rem;font-weight:900;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.mtog{padding:.36rem .88rem;border-radius:8px;font-size:.78rem;font-weight:900;background:rgba(94,234,212,.09);border:1px solid rgba(94,234,212,.2);color:var(--teal);font-family:var(--fu);cursor:pointer;transition:background .2s}
+.mtog.on{background:rgba(94,234,212,.2);border-color:var(--teal)}
+.pctrl{display:flex;align-items:center;gap:1.2rem;margin-bottom:1.2rem}
+.pbtn{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;color:#09090f;font-size:1.2rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .15s;box-shadow:0 0 20px rgba(246,218,126,.18)}
+.pbtn:hover{transform:scale(1.1)}
+.pgw{flex:1}
+.pgbg{height:5px;background:rgba(255,255,255,.09);border-radius:100px;margin-bottom:.44rem}
+.pgf{height:100%;background:var(--gold);border-radius:100px;width:0%;transition:width .28s linear}
+.times{display:flex;justify-content:space-between;font-size:.72rem;color:var(--mut)}
+.vrow{display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
+.vrow label{font-size:.75rem;font-weight:900;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;white-space:nowrap}
+.vrow select{flex:1;min-width:190px;font-size:.85rem;padding:.44rem .8rem}
+
+/* EMOTION TAG */
+.etag{display:inline-flex;align-items:center;gap:6px;background:rgba(249,168,212,.12);border:1px solid rgba(249,168,212,.22);color:var(--rose);font-size:.74rem;font-weight:800;padding:.3rem .8rem;border-radius:100px;margin-bottom:1rem;letter-spacing:.3px}
+
+/* PRICING */
+.pricing{margin-top:5rem;text-align:center}
+.pricing h2{font-family:var(--fs);font-size:2.2rem;margin-bottom:.6rem}
+.psub{color:var(--mut);margin-bottom:3rem;line-height:1.8;font-size:.98rem}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:1.3rem}
+.plan{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:2rem 1.7rem;text-align:left;position:relative}
+.plan.hot{border-color:rgba(246,218,126,.35)}
+.pbadge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--gold);color:#09090f;font-size:.7rem;font-weight:900;padding:3px 15px;border-radius:100px;text-transform:uppercase;letter-spacing:.6px;white-space:nowrap}
+.plan h3{font-size:.77rem;font-weight:900;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:.65rem}
+.plan .amt{font-size:2.6rem;font-weight:900;color:var(--txt);line-height:1}
+.plan .amt sup{font-size:1.1rem;vertical-align:super}
+.plan .anote{font-size:.8rem;color:var(--mut);margin-bottom:1.3rem;margin-top:.22rem}
+.plan ul{list-style:none;display:flex;flex-direction:column;gap:.68rem}
+.plan li{font-size:.88rem;color:var(--mut);display:flex;align-items:flex-start;gap:9px}
+.plan li::before{content:"✦";color:var(--lav);font-size:.58rem;flex-shrink:0;margin-top:5px}
+.plan li strong{color:var(--txt)}
+.planbtn{margin-top:1.7rem;width:100%;padding:.88rem;border-radius:9px;border:1px solid var(--bdr);background:var(--card2);color:var(--txt);font-family:var(--fu);font-size:.92rem;font-weight:900;cursor:pointer;transition:all .2s}
+.planbtn:hover{border-color:var(--lav);color:var(--lav)}
+.plan.hot .planbtn{background:linear-gradient(135deg,var(--lav),#7c3aed);border-color:transparent;color:#fff}
+.plan.hot .planbtn:hover{opacity:.87}
+
+footer{text-align:center;padding:2.2rem 0;color:var(--mut);font-size:.82rem;border-top:1px solid var(--bdr);margin-top:3.5rem}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.7rem;right:1.7rem;background:var(--teal);color:#09090f;padding:.7rem 1.3rem;border-radius:9px;font-weight:900;font-size:.88rem;opacity:0;pointer-events:none;transition:opacity .3s;z-index:9999}
+.toast.on{opacity:1}
+
+/* PAYWALL */
+.pw{display:none;position:fixed;inset:0;background:rgba(9,11,24,.96);backdrop-filter:blur(12px);z-index:900;align-items:center;justify-content:center}
+.pw.on{display:flex}
+.pwcard{background:var(--card);border:1px solid rgba(246,218,126,.28);border-radius:var(--r);padding:2.8rem 2.4rem;max-width:470px;width:92%;text-align:center;animation:rise .4s ease}
+.pwcard .icon{font-size:3.4rem;display:block;margin-bottom:1.1rem}
+.pwcard h2{font-family:var(--fs);font-size:1.8rem;color:var(--gold);margin-bottom:.75rem}
+.pwcard p{color:var(--mut);font-size:.93rem;line-height:1.75;margin-bottom:2rem}
+.pwplans{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-bottom:1.6rem}
+.pwp{padding:1.2rem;border-radius:11px;border:1px solid var(--bdr);background:var(--card2);text-align:center}
+.pwp.hl{border-color:var(--gold);background:rgba(246,218,126,.05)}
+.pwp .pp{font-size:1.8rem;font-weight:900;color:var(--txt)}
+.pwp .pl{font-size:.74rem;color:var(--mut);margin-top:3px}
+.pwp .pd{font-size:.78rem;color:var(--lav);margin-top:5px;font-weight:900}
+.pwbtn{width:100%;padding:1.08rem;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#09090f;border:none;border-radius:11px;font-family:var(--fu);font-size:1.02rem;font-weight:900;cursor:pointer;margin-bottom:1rem;transition:opacity .2s}
+.pwbtn:hover{opacity:.87}
+.pwclose{background:none;border:none;color:var(--mut);font-family:var(--fu);font-size:.85rem;cursor:pointer;text-decoration:underline}
+
+/* UNLOCK MODAL */
+.unlock{display:none;position:fixed;inset:0;background:rgba(9,11,24,.97);backdrop-filter:blur(12px);z-index:950;align-items:center;justify-content:center}
+.unlock.on{display:flex}
+.unlockcard{background:var(--card);border:1px solid rgba(94,234,212,.28);border-radius:var(--r);padding:2.6rem 2.2rem;max-width:420px;width:92%;text-align:center;animation:rise .4s ease}
+.unlockcard .uicon{font-size:2.8rem;display:block;margin-bottom:.9rem}
+.unlockcard h2{font-family:var(--fs);font-size:1.6rem;color:var(--teal);margin-bottom:.6rem}
+.unlockcard p{color:var(--mut);font-size:.88rem;line-height:1.7;margin-bottom:1.4rem}
+.uinput{width:100%;padding:.85rem 1rem;background:var(--card2);border:2px solid rgba(94,234,212,.3);border-radius:10px;color:var(--txt);font-family:var(--fu);font-size:1.1rem;font-weight:800;text-align:center;letter-spacing:4px;outline:none;margin-bottom:.9rem;text-transform:uppercase}
+.uinput:focus{border-color:var(--teal)}
+.uinput::placeholder{letter-spacing:1px;font-size:.88rem;font-weight:600;opacity:.5}
+.ubtn{width:100%;padding:1rem;background:linear-gradient(135deg,var(--teal),#0d9488);color:#09090f;border:none;border-radius:10px;font-family:var(--fu);font-size:1rem;font-weight:900;cursor:pointer;margin-bottom:.8rem;transition:opacity .2s}
+.ubtn:hover{opacity:.87}
+.uclose{background:none;border:none;color:var(--mut);font-family:var(--fu);font-size:.82rem;cursor:pointer;text-decoration:underline}
+.ucheck{color:var(--mut);font-size:.8rem;margin-top:.5rem}
+/* UNLOCKED badge */
+.unlocked-badge{display:none;background:rgba(94,234,212,.15);border:1px solid rgba(94,234,212,.3);color:var(--teal);font-size:.77rem;font-weight:900;padding:.42rem 1.1rem;border-radius:100px;letter-spacing:.3px;white-space:nowrap}
+</style>
+</head>
+<body class="t-adventure">
+
+<div class="stars" id="stars"></div>
+<div class="floaties" id="floaties"></div>
+
+<div class="wrap">
+
+  <nav>
+    <div class="logo">Dream<span>Tales</span> 🌙</div>
+    <div id="badge">✦ 10 Free Stories Left</div>
+    <div class="unlocked-badge" id="unlockedBadge">✦ Unlimited ∞ Unlocked</div>
+  </nav>
+
+  <div class="hero">
+    <span class="hmoon">🌙</span>
+    <h1>Magical <em>Bedtime Stories</em><br/>for Every Child</h1>
+    <p class="hsub">Personalized AI stories in 11 languages — warm human voice reads aloud with theme music &amp; nature sounds together. Loved by parents worldwide. 🌍</p>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">🌟 Create Your Story</div>
+    <div class="g2">
+
+      <div class="fld">
+        <label>Child's Name</label>
+        <input id="cname" type="text" placeholder="e.g. Emma, Arjun, Sofia, Lena" maxlength="30"/>
+      </div>
+
+      <div class="fld">
+        <label>Age</label>
+        <select id="cage">
+          <option value="2-4">2–4 years (very simple words)</option>
+          <option value="5-7" selected>5–7 years</option>
+          <option value="8-10">8–10 years</option>
+          <option value="11-13">11–13 years</option>
+        </select>
+      </div>
+
+      <div class="fld">
+        <label>Favorite Character / Animal</label>
+        <input id="animal" type="text" placeholder="e.g. a little dragon, a bunny, a robot" maxlength="40"/>
+      </div>
+
+      <div class="fld">
+        <label>Language</label>
+        <select id="slang" onchange="onLangChange()">
+          <option value="English" selected>🇬🇧 English</option>
+          <option value="Telugu">🇮🇳 తెలుగు — Telugu</option>
+          <option value="Hindi">🇮🇳 हिंदी — Hindi</option>
+          <option value="Tamil">🇮🇳 தமிழ் — Tamil</option>
+          <option value="Kannada">🇮🇳 ಕನ್ನಡ — Kannada</option>
+          <option value="Spanish">🇪🇸 Español — Spanish</option>
+          <option value="French">🇫🇷 Français — French</option>
+          <option value="Arabic">🇸🇦 عربي — Arabic</option>
+          <option value="Portuguese">🇧🇷 Português</option>
+          <option value="German">🇩🇪 Deutsch — German</option>
+          <option value="Japanese">🇯🇵 日本語 — Japanese</option>
+        </select>
+      </div>
+
+      <div class="fld">
+        <label>Story Length</label>
+        <select id="slen">
+          <option value="short">Short — ~2 minutes</option>
+          <option value="medium" selected>Medium — ~5 minutes</option>
+          <option value="long">Long — ~10 minutes</option>
+        </select>
+      </div>
+
+      <div class="fld">
+        <label>Special Wish (optional)</label>
+        <input id="wish" type="text" placeholder="e.g. include a rainbow bridge, a talking star..." maxlength="80"/>
+      </div>
+
+      <div class="fld full">
+        <label>Story Theme — changes background &amp; music</label>
+        <div class="pills">
+          <div class="pill on" data-t="adventure"  data-e="🗺️🌲🏔️⚔️🦅🌄🐺🌿">🗺️ Adventure</div>
+          <div class="pill"    data-t="magic"       data-e="✨🔮🌟🪄💫🌙🦄🌈">✨ Magic</div>
+          <div class="pill"    data-t="space"       data-e="🚀⭐🪐🌌👾🛸🌠💫">🚀 Space</div>
+          <div class="pill"    data-t="ocean"       data-e="🌊🐠🐙🐬🌺🐋🦀🐚">🌊 Ocean</div>
+          <div class="pill"    data-t="jungle"      data-e="🌿🦁🐘🦜🍃🐒🌺🦋">🌿 Jungle</div>
+          <div class="pill"    data-t="friendship"  data-e="🤝💛🌈🫶🌸🦋🌻🎈">🤝 Friendship</div>
+          <div class="pill"    data-t="kindness"    data-e="💛🕊️🌻🌼☀️🌈🫶🌸">💛 Kindness</div>
+          <div class="pill"    data-t="dreams"      data-e="💫🌙☁️🦋🌠🌛✨🌃">💫 Dreams</div>
+        </div>
+      </div>
+
+    </div>
+    <button class="genbtn" id="genbtn" onclick="generate()">✨ Generate My Story</button>
+  </div>
+
+  <div class="loader" id="loader">
+    <div class="dots"><span></span><span></span><span></span></div>
+    <p id="ltxt">Weaving your magical story... 🌙</p>
+  </div>
+
+  <div class="sout" id="sout">
+    <div class="shead">
+      <div>
+        <h2 id="stitle"></h2>
+        <p id="smeta"></p>
+      </div>
+      <div class="acts">
+        <button class="abtn" onclick="copyStory()">📋 Copy</button>
+        <button class="abtn" onclick="newStory()">✦ New Story</button>
+      </div>
+    </div>
+    <div id="etag" class="etag"></div>
+    <div class="sbody" id="sbody"></div>
+
+    <div class="player">
+      <div class="ptop">
+        <h4>🎙 Voice &amp; 🎵 Music — Press Play to Start</h4>
+        <button class="mtog on" id="mtog" onclick="toggleMusic()">🎵 Music ON</button>
+      </div>
+      <div class="pctrl">
+        <button class="pbtn" id="pbtn" onclick="toggleVoice()">▶</button>
+        <div class="pgw">
+          <div class="pgbg"><div class="pgf" id="pgf"></div></div>
+          <div class="times"><span id="tcur">0:00</span><span id="ttot">0:00</span></div>
+        </div>
+      </div>
+      <div class="vrow">
+        <label>Voice</label>
+        <select id="vsel"></select>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <div class="pricing">
+    <h2>Simple Pricing</h2>
+    <p class="psub">10 magical stories free for every family — no credit card, no signup<br/>Upgrade for unlimited nightly bedtime magic 🌙</p>
+    <div class="plans">
+      <div class="plan">
+        <h3>Free Forever</h3>
+        <div class="amt">$0</div>
+        <div class="anote">10 stories, always free</div>
+        <ul>
+          <li><strong>10 stories</strong> — no signup needed</li>
+          <li>All 11 languages</li>
+          <li>Voice + theme music</li>
+          <li>All 8 themes</li>
+        </ul>
+        <button class="planbtn">Currently Active ✦</button>
+      </div>
+      <div class="plan hot">
+        <div class="pbadge">Most Popular</div>
+        <h3>Family Plan</h3>
+        <div class="amt"><sup>$</sup>4.99</div>
+        <div class="anote">per month · cancel anytime</div>
+        <ul>
+          <li><strong>Unlimited</strong> stories every night</li>
+          <li>All 11 languages</li>
+          <li>Warm human-style voice</li>
+          <li>Theme music + nature sounds</li>
+          <li>Save &amp; replay stories</li>
+          <li>Works on all devices worldwide</li>
+        </ul>
+        <button class="planbtn" onclick="goToCheckout()">Get Family Plan →</button>
+      </div>
+      <div class="plan">
+        <h3>Story Pack</h3>
+        <div class="amt"><sup>$</sup>1.99</div>
+        <div class="anote">one-time · 20 stories</div>
+        <ul>
+          <li><strong>20 stories</strong> — use anytime</li>
+          <li>All 11 languages</li>
+          <li>Voice + music included</li>
+          <li>No monthly fee</li>
+          <li>Perfect as a gift 🎁</li>
+        </ul>
+        <button class="planbtn" onclick="goToCheckout('pack')">Buy Story Pack →</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>Made with 🌙 by DreamTales &nbsp;·&nbsp; Magical Bedtime Stories for Every Child in the World</footer>
+</div>
+
+<!-- PAYWALL -->
+<div class="pw" id="pw">
+  <div class="pwcard">
+    <span class="icon">🌙</span>
+    <h2>Your 10 Free Stories Are Used!</h2>
+    <p>You've given your child 10 magical nights. Pick a plan to keep the magic going — less than one coffee per month for unlimited nightly stories ✨</p>
+    <div class="pwplans">
+      <div class="pwp hl" onclick="goToCheckout()" style="cursor:pointer">
+        <div class="pp">$4.99</div>
+        <div class="pl">per month</div>
+        <div class="pd">Unlimited ✦ Best Value</div>
+      </div>
+      <div class="pwp" onclick="goToCheckout('pack')" style="cursor:pointer">
+        <div class="pp">$1.99</div>
+        <div class="pl">one-time</div>
+        <div class="pd">20 Story Pack</div>
+      </div>
+    </div>
+    <button class="pwbtn" onclick="goToCheckout();closePw()">💳 Buy Plan — Unlock Instantly</button>
+    <br/>
+    <p style="color:var(--mut);font-size:.8rem;margin:.8rem 0 .5rem">Already purchased? Enter your access code:</p>
+    <button class="pwclose" onclick="closePw();openUnlock()">🔑 I have an access code</button>
+  </div>
+</div>
+
+<!-- UNLOCK MODAL -->
+<div class="unlock" id="unlock">
+  <div class="unlockcard">
+    <span class="uicon">🔑</span>
+    <h2>Enter Access Code</h2>
+    <p>After purchase you receive an email with your access code. Enter it below to unlock unlimited stories instantly.</p>
+    <input class="uinput" id="ucode" type="text" placeholder="Enter your code here" maxlength="20" oninput="this.value=this.value.toUpperCase()"/>
+    <button class="ubtn" onclick="redeemCode()">✨ Unlock My Stories</button>
+    <div class="ucheck" id="ucheckMsg"></div>
+    <br/>
+    <button class="uclose" onclick="closeUnlock()">Back</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+
+// ═══════════════════════════════════════
+// STARS
+// ═══════════════════════════════════════
+(()=>{
+  const c=document.getElementById('stars');
+  for(let i=0;i<160;i++){
+    const s=document.createElement('div');s.className='star';
+    const z=Math.random()*2.2+.4;
+    s.style.cssText=`width:${z}px;height:${z}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${1.8+Math.random()*4}s;--dl:-${Math.random()*7}s`;
+    c.appendChild(s);
+  }
+})();
+
+// ═══════════════════════════════════════
+// THEME DATA
+// ═══════════════════════════════════════
+const THEMES={
+  adventure:{
+    emoji:'🗺️🌲🏔️⚔️🦅🌄🐺🌿',
+    // C major pentatonic — bold, warm, hopeful
+    scale:[261.6,293.7,329.6,392.0,440.0,523.3],
+    bass:65.4, bassType:'triangle',
+    // nature: wind through trees, birds
+    nature:['wind','birds'],
+    label:'Adventure', emotion:'Brave & Exciting'
+  },
+  magic:{
+    emoji:'✨🔮🌟🪄💫🌙🦄🌈',
+    // Lydian mode — mysterious, floating, wonder
+    scale:[277.2,311.1,370.0,415.3,493.9,554.4],
+    bass:69.3, bassType:'sine',
+    nature:['wind','chimes'],
+    label:'Magic', emotion:'Wondrous & Dreamy'
+  },
+  space:{
+    emoji:'🚀⭐🪐🌌👾🛸🌠💫',
+    // Whole tone scale — vast, otherworldly
+    scale:[220.0,246.9,277.2,311.1,349.2,392.0],
+    bass:55.0, bassType:'sine',
+    nature:['deep_space'],
+    label:'Space', emotion:'Mysterious & Vast'
+  },
+  ocean:{
+    emoji:'🌊🐠🐙🐬🌺🐋🦀🐚',
+    // C Lydian — wavy, peaceful, expansive
+    scale:[264.0,297.0,330.0,352.0,396.0,440.0],
+    bass:66.0, bassType:'triangle',
+    nature:['waves','seagulls'],
+    label:'Ocean', emotion:'Calm & Peaceful'
+  },
+  jungle:{
+    emoji:'🌿🦁🐘🦜🍃🐒🌺🦋',
+    // Mixolydian — earthy, alive, warm
+    scale:[261.6,293.7,349.2,392.0,466.2,523.3],
+    bass:65.4, bassType:'triangle',
+    nature:['rain','birds'],
+    label:'Jungle', emotion:'Alive & Adventurous'
+  },
+  friendship:{
+    emoji:'🤝💛🌈🫶🌸🦋🌻🎈',
+    // D major — bright, warm, joyful
+    scale:[293.7,329.6,370.0,440.0,493.9,587.3],
+    bass:73.4, bassType:'triangle',
+    nature:['birds','wind'],
+    label:'Friendship', emotion:'Warm & Joyful'
+  },
+  kindness:{
+    emoji:'💛🕊️🌻🌼☀️🌈🫶🌸',
+    // C major open — safe, gentle, loving
+    scale:[264.0,330.0,396.0,440.0,528.0,594.0],
+    bass:66.0, bassType:'triangle',
+    nature:['wind','chimes'],
+    label:'Kindness', emotion:'Gentle & Loving'
+  },
+  dreams:{
+    emoji:'💫🌙☁️🦋🌠🌛✨🌃',
+    // A minor pentatonic — soft, floating, sleepy
+    scale:[220.0,261.6,311.1,370.0,415.3,493.9],
+    bass:55.0, bassType:'sine',
+    nature:['deep_space','wind'],
+    label:'Dreams', emotion:'Soft & Sleepy'
+  }
+};
+
+// ═══════════════════════════════════════
+// THEME SELECTION
+// ═══════════════════════════════════════
+let theme='adventure';
+
+document.querySelectorAll('.pill').forEach(p=>{
+  p.onclick=()=>{
+    document.querySelectorAll('.pill').forEach(x=>x.classList.remove('on'));
+    p.classList.add('on');
+    theme=p.dataset.t;
+    document.body.className='t-'+theme;
+    spawnFloaties(THEMES[theme].emoji);
+    // only restart music if it's already playing (user pressed play)
+    if(musicPlaying) restartMusic();
+  };
 });
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-        }),
-      }
-    );
 
-    const data = await response.json();
-
-    res.status(200).json(data);
-
-  } catch (error) {
-    res.status(500).json({ error: "Error" });
+// ═══════════════════════════════════════
+// FLOATING EMOJIS
+// ═══════════════════════════════════════
+function spawnFloaties(str){
+  const c=document.getElementById('floaties');c.innerHTML='';
+  const arr=str.split('');
+  for(let i=0;i<24;i++){
+    const d=document.createElement('div');d.className='floaty';
+    d.textContent=arr[Math.floor(Math.random()*arr.length)];
+    d.style.cssText=`left:${Math.random()*100}%;--fd:${11+Math.random()*14}s;--fdl:-${Math.random()*14}s`;
+    c.appendChild(d);
   }
 }
+spawnFloaties(THEMES.adventure.emoji);
+
+// ═══════════════════════════════════════
+// TRIAL COUNTER
+// ═══════════════════════════════════════
+let used=parseInt(localStorage.getItem('dt5')||'0');
+const LIMIT=10;
+
+// ── VALID ACCESS CODES ──────────────────────────────────────
+// Add your codes here — each code = one customer's purchase
+// Format: 'CODE':'plan type'
+// Generate random codes like: DREAM-X7K2, MAGIC-9PL4 etc.
+const VALID_CODES={
+  'DREAM-FAMILY':'unlimited',  // example — replace with real codes
+  'MAGIC-PACK20':'pack20',     // example — replace with real codes
+};
+
+// Check if already unlocked
+let unlocked=localStorage.getItem('dt_unlocked')||'';
+let unlockedPlan=localStorage.getItem('dt_plan')||'';
+
+updateBadge();
+
+function updateBadge(){
+  if(unlocked){
+    document.getElementById('badge').style.display='none';
+    document.getElementById('unlockedBadge').style.display='inline-flex';
+    return;
+  }
+  const left=Math.max(0,LIMIT-used);
+  document.getElementById('badge').textContent=
+    left>0?`✦ ${left} Free ${left===1?'Story':'Stories'} Left`:'✦ Free Trial Ended';
+}
+
+function isUnlimited(){
+  return !!unlocked;
+}
+
+function openUnlock(){ document.getElementById('unlock').classList.add('on'); }
+function closeUnlock(){
+  document.getElementById('unlock').classList.remove('on');
+  document.getElementById('ucheckMsg').textContent='';
+  document.getElementById('ucode').value='';
+}
+
+function redeemCode(){
+  const code=document.getElementById('ucode').value.trim().toUpperCase();
+  const msg=document.getElementById('ucheckMsg');
+  if(!code){ msg.textContent='⚠️ Please enter your code'; msg.style.color='var(--rose)'; return; }
+  if(VALID_CODES[code]){
+    // Save unlock to localStorage
+    unlocked=code;
+    unlockedPlan=VALID_CODES[code];
+    localStorage.setItem('dt_unlocked',code);
+    localStorage.setItem('dt_plan',unlockedPlan);
+    msg.textContent='✅ Unlocked! Enjoy unlimited stories 🌙';
+    msg.style.color='var(--teal)';
+    updateBadge();
+    setTimeout(()=>{ closeUnlock(); document.getElementById('pw').classList.remove('on'); },1800);
+  } else {
+    msg.textContent='❌ Invalid code. Please check your email.';
+    msg.style.color='var(--rose)';
+  }
+}
+
+// ═══════════════════════════════════════
+// VOICES
+// ═══════════════════════════════════════
+let voices=[];
+const SYN=window.speechSynthesis;
+const LCODES={
+  English:['en'],Telugu:['te'],Hindi:['hi'],Tamil:['ta'],
+  Kannada:['kn'],Spanish:['es'],French:['fr'],Arabic:['ar'],
+  Portuguese:['pt'],German:['de'],Japanese:['ja']
+};
+// warm/female voice keywords — most natural for bedtime
+const WARM=['samantha','karen','victoria','moira','zira','asha','lekha','heera',
+            'female','fiona','tessa','veena','kanya','amelie','zosia',
+            'wavenet-a','wavenet-c','neural2','studio','flo','siri female'];
+
+function loadVoices(){
+  const all=SYN.getVoices();
+  if(!all.length) return;
+  const lang=document.getElementById('slang').value;
+  const codes=LCODES[lang]||['en'];
+  let match=all.filter(v=>codes.some(c=>v.lang.toLowerCase().startsWith(c)));
+  if(!match.length){
+    match=all.filter(v=>v.lang.startsWith('en'));
+    if(['Telugu','Tamil','Kannada','Hindi'].includes(lang))
+      showToast('Tip: install '+lang+' voice in device Settings for best sound');
+  }
+  // sort: warm/female first, then neural/wavenet, then rest
+  match.sort((a,b)=>{
+    const an=a.name.toLowerCase(), bn=b.name.toLowerCase();
+    const aw=WARM.some(w=>an.includes(w))?0:1;
+    const bw=WARM.some(w=>bn.includes(w))?0:1;
+    if(aw!==bw) return aw-bw;
+    // prefer Google voices (usually more natural)
+    const ag=an.includes('google')?0:1;
+    const bg=bn.includes('google')?0:1;
+    return ag-bg;
+  });
+  voices=match.slice(0,20);
+  const sel=document.getElementById('vsel');
+  sel.innerHTML='';
+  voices.forEach((v,i)=>{
+    const o=document.createElement('option');
+    o.value=i;
+    o.textContent=v.name+' ('+v.lang+')';
+    sel.appendChild(o);
+  });
+}
+if(SYN.onvoiceschanged!==undefined) SYN.onvoiceschanged=loadVoices;
+loadVoices(); setTimeout(loadVoices,800);
+function onLangChange(){ setTimeout(loadVoices,250); }
+
+// ═══════════════════════════════════════
+// AUDIO ENGINE — Web Audio API
+// ═══════════════════════════════════════
+let AC=null, musicNodes=[], musicOn=true, musicPlaying=false;
+let melTimer=null, droneTimer=null, natureTimers=[];
+
+function initAC(){
+  if(AC) return;
+  AC=new(window.AudioContext||window.webkitAudioContext)();
+}
+
+// ── Soft note with fade in/out ──
+function playNote(freq,start,dur,vol,type='sine',detune=0){
+  if(!AC||!musicOn) return null;
+  const osc=AC.createOscillator();
+  const gain=AC.createGain();
+  osc.type=type;
+  osc.frequency.setValueAtTime(freq,start);
+  if(detune) osc.detune.setValueAtTime(detune,start);
+  gain.gain.setValueAtTime(0,start);
+  gain.gain.linearRampToValueAtTime(vol, start+Math.min(0.6,dur*.3));
+  gain.gain.setValueAtTime(vol, start+dur-Math.min(1.2,dur*.4));
+  gain.gain.linearRampToValueAtTime(0, start+dur);
+  osc.connect(gain); gain.connect(AC.destination);
+  osc.start(start); osc.stop(start+dur+.3);
+  musicNodes.push(osc);
+  return osc;
+}
+
+// ── Nature sounds via filtered noise ──
+function makeNoise(type,vol,dur,start){
+  if(!AC||!musicOn) return;
+  const buf=AC.createBuffer(1,AC.sampleRate*dur,AC.sampleRate);
+  const d=buf.getChannelData(0);
+  for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
+
+  const src=AC.createBufferSource();
+  src.buffer=buf;
+
+  const filter=AC.createBiquadFilter();
+  const gain=AC.createGain();
+
+  if(type==='waves'){
+    // ocean waves — low rumble with slow LFO volume
+    filter.type='lowpass'; filter.frequency.value=280;
+    const lfo=AC.createOscillator();
+    const lfoGain=AC.createGain();
+    lfo.frequency.value=0.18; // very slow wave rhythm
+    lfoGain.gain.value=vol*.55;
+    lfo.connect(lfoGain); lfoGain.connect(gain.gain);
+    lfo.start(start); lfo.stop(start+dur+.5);
+    musicNodes.push(lfo);
+  } else if(type==='rain'){
+    // rain — mid noise
+    filter.type='bandpass'; filter.frequency.value=1800; filter.Q.value=0.4;
+  } else if(type==='wind'){
+    // gentle wind — low-mid
+    filter.type='bandpass'; filter.frequency.value=400; filter.Q.value=0.6;
+    const lfo=AC.createOscillator();
+    const lfoGain=AC.createGain();
+    lfo.frequency.value=0.08;
+    lfoGain.gain.value=vol*.4;
+    lfo.connect(lfoGain); lfoGain.connect(gain.gain);
+    lfo.start(start); lfo.stop(start+dur+.5);
+    musicNodes.push(lfo);
+  } else if(type==='deep_space'){
+    // space hum — very low
+    filter.type='lowpass'; filter.frequency.value=90;
+  } else {
+    filter.type='bandpass'; filter.frequency.value=1200; filter.Q.value=1;
+  }
+
+  gain.gain.setValueAtTime(0,start);
+  gain.gain.linearRampToValueAtTime(vol,start+2.5);
+  gain.gain.setValueAtTime(vol,start+dur-2.5);
+  gain.gain.linearRampToValueAtTime(0,start+dur);
+
+  src.connect(filter); filter.connect(gain); gain.connect(AC.destination);
+  src.start(start); src.stop(start+dur+.3);
+  musicNodes.push(src);
+}
+
+// ── Bird chirps (synthesized) ──
+function playBird(start){
+  if(!AC||!musicOn) return;
+  const freqs=[1200,1400,1600,1800,2000];
+  const f=freqs[Math.floor(Math.random()*freqs.length)];
+  const osc=AC.createOscillator();
+  const gain=AC.createGain();
+  osc.type='sine';
+  osc.frequency.setValueAtTime(f,start);
+  osc.frequency.linearRampToValueAtTime(f*1.3,start+.08);
+  osc.frequency.linearRampToValueAtTime(f,start+.16);
+  gain.gain.setValueAtTime(0,start);
+  gain.gain.linearRampToValueAtTime(.018,start+.04);
+  gain.gain.linearRampToValueAtTime(0,start+.2);
+  osc.connect(gain); gain.connect(AC.destination);
+  osc.start(start); osc.stop(start+.3);
+  musicNodes.push(osc);
+}
+
+// ── Chime/sparkle ──
+function playChime(start){
+  if(!AC||!musicOn) return;
+  const freqs=[1047,1175,1319,1568,1760];
+  const f=freqs[Math.floor(Math.random()*freqs.length)];
+  playNote(f,start,.9,.012,'sine',Math.random()*10-5);
+}
+
+// ═══════════════════════════════════════
+// START MUSIC — theme specific
+// ═══════════════════════════════════════
+function startMusic(){
+  if(!AC||!musicOn) return;
+  musicPlaying=true;
+  const T=THEMES[theme];
+  const scale=T.scale;
+  let t=AC.currentTime+.5;
+
+  // ── BASS DRONE (continuous warm foundation) ──
+  function drone(){
+    if(!musicOn||!musicPlaying) return;
+    playNote(T.bass,    t, 8.0, .028, T.bassType,  -4);
+    playNote(T.bass*2,  t, 8.0, .016, 'sine',      +4);
+    droneTimer=setTimeout(drone, 7400);
+  }
+  drone();
+
+  // ── MELODY (lullaby-paced notes) ──
+  function melody(){
+    if(!musicOn||!musicPlaying) return;
+    const f=scale[Math.floor(Math.random()*scale.length)];
+    const oct=Math.random()>.6?2:1;
+    playNote(f*oct, t, 3.6, .048, 'sine', Math.random()*8-4);
+
+    // harmony ~45% of time
+    if(Math.random()>.55){
+      const h=scale[(Math.floor(Math.random()*scale.length)+2)%scale.length];
+      playNote(h, t+.8, 2.6, .026, 'sine', Math.random()*6-3);
+    }
+    // high twinkle ~25% of time
+    if(Math.random()>.75){
+      playNote(scale[Math.floor(Math.random()*scale.length)]*4, t+1.4, 1.1, .014, 'sine', 0);
+    }
+    const gap=3.4+Math.random()*3;
+    t+=gap;
+    melTimer=setTimeout(melody, gap*850);
+  }
+  melody();
+
+  // ── NATURE SOUNDS (theme specific, looping) ──
+  let nt=AC.currentTime+1.0;
+  function natureLoop(){
+    if(!musicOn||!musicPlaying) return;
+    T.nature.forEach((n,idx)=>{
+      const offset=idx*3;
+      if(n==='waves')   makeNoise('waves',  .04, 12, nt+offset);
+      if(n==='rain')    makeNoise('rain',   .022, 12, nt+offset);
+      if(n==='wind')    makeNoise('wind',   .016, 12, nt+offset);
+      if(n==='deep_space') makeNoise('deep_space',.03,12,nt+offset);
+      if(n==='chimes'){
+        // schedule several chimes
+        for(let i=0;i<4;i++){
+          const cTimer=setTimeout(()=>playChime(AC.currentTime+.1), (offset+Math.random()*10)*1000);
+          natureTimers.push(cTimer);
+        }
+      }
+      if(n==='birds'){
+        // schedule bird calls
+        for(let i=0;i<5;i++){
+          const bTimer=setTimeout(()=>playBird(AC.currentTime+.1), (offset+1+Math.random()*9)*1000);
+          natureTimers.push(bTimer);
+        }
+      }
+      if(n==='seagulls'){
+        for(let i=0;i<3;i++){
+          const sgTimer=setTimeout(()=>playBird(AC.currentTime+.1), (offset+2+Math.random()*8)*1000);
+          natureTimers.push(sgTimer);
+        }
+      }
+    });
+    nt+=11;
+    const nTimer=setTimeout(natureLoop, 10500);
+    natureTimers.push(nTimer);
+  }
+  natureLoop();
+}
+
+function stopMusic(){
+  musicPlaying=false;
+  clearTimeout(melTimer); clearTimeout(droneTimer);
+  natureTimers.forEach(t=>clearTimeout(t)); natureTimers=[];
+  musicNodes.forEach(n=>{ try{n.stop()}catch(e){} });
+  musicNodes=[];
+}
+
+function restartMusic(){ stopMusic(); if(musicOn) startMusic(); }
+
+function toggleMusic(){
+  musicOn=!musicOn;
+  const b=document.getElementById('mtog');
+  b.textContent=musicOn?'🎵 Music ON':'🎵 Music OFF';
+  b.classList.toggle('on',musicOn);
+  if(musicOn&&speaking){ initAC(); startMusic(); }
+  else if(!musicOn) stopMusic();
+}
+
+// ═══════════════════════════════════════
+// GENERATE STORY
+// ═══════════════════════════════════════
+// emotion tag labels per theme
+const EMOTION_TAGS={
+  adventure:'⚔️ Brave & Exciting',
+  magic:'✨ Wondrous & Dreamy',
+  space:'🚀 Mysterious & Vast',
+  ocean:'🌊 Calm & Peaceful',
+  jungle:'🌿 Alive & Adventurous',
+  friendship:'💛 Warm & Joyful',
+  kindness:'🕊️ Gentle & Loving',
+  dreams:'💫 Soft & Sleepy'
+};
+
+// loading messages per language
+const LMSGS={
+  Telugu:'మీ పిల్లవాడి కోసం మాయాజాల కథ అల్లుతున్నాను... 🌙',
+  Hindi:'आपके बच्चे के लिए जादुई कहानी बुन रहे हैं... 🌙',
+  Tamil:'உங்கள் குழந்தைக்காக மந்திர கதை நெய்கிறோம்... 🌙',
+  Kannada:'ನಿಮ್ಮ ಮಗುವಿಗಾಗಿ ಮಾಯಾ ಕಥೆ ಹೆಣೆಯುತ್ತಿದ್ದೇವೆ... 🌙',
+  Spanish:'Tejiendo un cuento mágico para tu pequeño... 🌙',
+  French:'On tisse une histoire magique pour ton enfant... 🌙',
+  Arabic:'...نحيك قصة سحرية لطفلك الصغير 🌙',
+  German:'Deine magische Gutenachtgeschichte wird gewebt... 🌙',
+  Japanese:'お子さんのために魔法の物語を紡いでいます... 🌙',
+  Portuguese:'Tecendo uma história mágica para seu filho... 🌙',
+};
+
+// strict language instructions
+const LINSTR={
+  English:`Write entirely in warm, natural English.`,
+  Telugu:`మొత్తం కథ తెలుగులో మాత్రమే రాయండి. ఒక్క ఆంగ్ల పదం కూడా వాడకండి. శీర్షిక తెలుగులో ఉండాలి. సరళమైన తెలుగు వాడండి.`,
+  Hindi:`पूरी कहानी केवल हिंदी में — एक भी अंग्रेज़ी शब्द नहीं। शीर्षक हिंदी में।`,
+  Tamil:`முழு கதையும் தமிழில் மட்டும் — ஒரு ஆங்கில வார்த்தையும் வேண்டாம்।`,
+  Kannada:`ಸಂಪೂರ್ಣ ಕಥೆ ಕನ್ನಡದಲ್ಲಿ ಮಾತ್ರ — ಒಂದೇ ಒಂದು ಆಂಗ್ಲ ಪದ ಬಳಸಬೇಡಿ.`,
+  Spanish:`Escribe toda la historia SOLO en español.`,
+  French:`Écris toute l'histoire UNIQUEMENT en français.`,
+  Arabic:`اكتب القصة كاملة باللغة العربية فقط.`,
+  Portuguese:`Escreva toda a história SOMENTE em português.`,
+  German:`Schreibe die gesamte Geschichte NUR auf Deutsch.`,
+  Japanese:`物語全体を日本語のみで書いてください。`,
+};
+
+const WC={
+  short:'200 words (2 min read — keep it simple and cozy)',
+  medium:'480 words (5 min read — build a warm world with gentle plot)',
+  long:'900 words (10 min read — multiple scenes, deep characters, long sleepy ending)'
+};
+
+async function generate(){
+  // Check if unlocked OR still has free stories
+  if(!isUnlimited() && used>=LIMIT){
+    document.getElementById('pw').classList.add('on');
+    return;
+  }
+
+  const name  =document.getElementById('cname').value.trim()||'little one';
+  const age   =document.getElementById('cage').value;
+  const animal=document.getElementById('animal').value.trim()||'a friendly little dragon';
+  const len   =document.getElementById('slen').value;
+  const wish  =document.getElementById('wish').value.trim();
+  const lang  =document.getElementById('slang').value;
+  const T     =THEMES[theme];
+
+  const btn=document.getElementById('genbtn');
+  btn.disabled=true;
+  document.getElementById('ltxt').textContent=LMSGS[lang]||'Weaving your magical story... 🌙';
+  document.getElementById('loader').classList.add('on');
+  document.getElementById('sout').classList.remove('on');
+  stopVoice(); stopMusic();
+
+  // ── THE PROMPT ──
+  // Key principle: instruct AI to write with emotional beats,
+  // sensory details, and pacing that maps to how it will be SPOKEN
+  const prompt=
+`You are writing a bedtime story that will be READ ALOUD to a child by a text-to-speech voice.
+This means: write HOW IT SOUNDS, not how it looks on paper.
+
+CHILD: "${name}", Age: ${age}
+CHARACTER: ${animal}
+THEME: ${T.label} (emotional tone: ${T.emotion})
+${wish?'SPECIAL DETAIL TO INCLUDE: '+wish:''}
+LENGTH: ${WC[len]}
+LANGUAGE INSTRUCTION: ${LINSTR[lang]||LINSTR.English}
+
+═══ WRITING RULES — follow every single one ═══
+
+VOICE & TONE (most important):
+• Write like a warm grandparent whispering at a bedside — real, human, tender
+• NOT poetic. NOT formal. NOT a textbook. Speak naturally.
+• Use short sentences sometimes. Medium sometimes. Like real people talk.
+• Add soft emotional moments — a little sigh, a gentle laugh, eyes growing heavy
+• Use "${name}"'s name 3–4 times naturally and warmly during the story
+
+EMOTIONAL JOURNEY (map these to the story arc):
+1. Opening: gentle curiosity — draw the child in softly
+2. Middle: small adventure/warmth/wonder matching theme "${T.label}"  
+3. Turning point: a small moment of heart — kindness, bravery, love, or magic
+4. Ending: slow, soft, deeply peaceful — the world quiets, eyes close, sleep comes
+
+SENSORY DETAILS (make the child FEEL it):
+• Touch: warm blankets, soft fur, cool night breeze, cozy nests
+• Sound: quiet chirping, soft rain, distant music, gentle breathing
+• Sight: soft moonlight, glowing stars, sleepy colors
+• Smell: warm bread, pine trees, ocean salt, fresh rain
+
+PACING FOR SPEECH:
+• Use "..." once or twice for natural breath pauses
+• Near the end: sentences get shorter. And softer. Like this.
+• The very last paragraph: barely a whisper. Pure peace.
+• End with both ${name} and the character drifting to sleep together
+
+RULES:
+✓ Heart-touching moments that make parents emotional too
+✓ Child must feel SEEN — use their name, reference their age naturally
+✓ Beautiful, specific imagery — not generic
+✗ NO scary content ever
+✗ NO loud action in last 30% of story
+✗ NO clichés like "Once upon a time" — open with something original
+
+FORMAT:
+Line 1: Story title only (no label, no quotes, no asterisks)
+Line 2: blank
+Lines 3+: Story paragraphs separated by blank lines`;
+
+  try{
+    // FREE Google Gemini API — no user account needed!
+    const GEMINI_KEY='AIzaSyC9i34qpUh5AXaP_gYJBQh4pIjLdPfPvhs';
+    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({contents:[{parts:[{text:prompt}]}],
+        generationConfig:{maxOutputTokens:2048,temperature:0.9}})
+    });
+    const data=await res.json();
+    if(data.error){showToast('⚠️ Check your Gemini API key');throw new Error(data.error.message);}
+    const raw=(data.candidates?.[0]?.content?.parts?.[0]?.text||'').trim();
+    const nl=raw.indexOf('\n');
+    const title=raw.slice(0,nl<0?raw.length:nl).replace(/^#+\s*|\*+/g,'').trim();
+    const body=raw.slice(nl+1).trim();
+
+    document.getElementById('stitle').textContent=title;
+    document.getElementById('smeta').textContent=
+      `For ${name} · ${T.label} · ${lang} · ${len}`;
+    document.getElementById('etag').textContent=EMOTION_TAGS[theme];
+    document.getElementById('sbody').textContent=body;
+    document.getElementById('sout').classList.add('on');
+
+    // estimate duration for progress bar
+    const wds=body.split(/\s+/).length;
+    storyDur=Math.round(wds/2.0);
+    document.getElementById('ttot').textContent=fmt(storyDur);
+    document.getElementById('tcur').textContent='0:00';
+    document.getElementById('pgf').style.width='0%';
+
+    used++; localStorage.setItem('dt5',used); updateBadge();
+    loadVoices();
+
+  }catch(e){ console.error(e); }
+
+  document.getElementById('loader').classList.remove('on');
+  btn.disabled=false;
+  document.getElementById('sout').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ═══════════════════════════════════════
+// VOICE ENGINE
+// Voice + music START TOGETHER on play press
+// ═══════════════════════════════════════
+let utt=null, speaking=false, paused=false;
+let pgInt=null, storyStart=0, storyDur=0;
+
+function toggleVoice(){
+  if(speaking&&!paused){
+    SYN.pause();
+    paused=true;
+    // pause music too
+    stopMusic();
+    document.getElementById('pbtn').textContent='▶';
+    clearInterval(pgInt);
+  } else if(paused){
+    SYN.resume();
+    paused=false;
+    // resume music too
+    if(musicOn){ initAC(); startMusic(); }
+    document.getElementById('pbtn').textContent='⏸';
+    startPg();
+  } else {
+    startVoiceAndMusic();
+  }
+}
+
+function startVoiceAndMusic(){
+  stopVoice(); stopMusic();
+  const text=document.getElementById('sbody').textContent;
+  if(!text) return;
+
+  // start music first
+  if(musicOn){ initAC(); startMusic(); }
+
+  // split into natural speech chunks
+  // sentence splitter handles: . ! ? ... and Indian script punctuation ।
+  const raw=text.replace(/\.\.\./g,'…');
+  const sents=raw.match(/[^।.!?…\n]+[।.!?…\n]+/g)||[raw];
+  const total=sents.length;
+  let i=0;
+  storyStart=Date.now();
+
+  function next(){
+    if(!speaking) return;
+    if(i>=total){
+      speaking=false; paused=false;
+      document.getElementById('pbtn').textContent='▶';
+      clearInterval(pgInt);
+      document.getElementById('pgf').style.width='100%';
+      stopMusic(); // music fades when story ends
+      return;
+    }
+    const s=sents[i].trim().replace(/…/g,', ');
+    if(!s){ i++; next(); return; }
+
+    utt=new SpeechSynthesisUtterance(s);
+
+    // pick voice
+    const vi=parseInt(document.getElementById('vsel').value||'0');
+    if(voices[vi]) utt.voice=voices[vi];
+
+    // ── EMOTIONAL PACING ──
+    // Progress through story: 0.0 = start, 1.0 = end
+    const pct=i/total;
+
+    // Opening (0–15%): slightly slower, warm and inviting
+    // Middle (15–75%): normal warm pace with slight variations
+    // Near end (75–90%): slowing down, softer
+    // Very end (90–100%): barely a whisper, very slow
+
+    let rate, pitch, vol;
+    if(pct<.15){
+      // opening — warm, inviting, slightly slow
+      rate=0.84; pitch=1.02+(Math.random()*.06); vol=1.0;
+    } else if(pct<.75){
+      // middle — natural human variation
+      // occasionally speed up slightly for exciting bits, slow for tender bits
+      rate=0.86+(Math.random()*.06); // 0.86–0.92 natural range
+      pitch=0.98+(Math.random()*.10); // 0.98–1.08 emotional range
+      vol=1.0;
+    } else if(pct<.90){
+      // winding down — slower, warmer
+      rate=0.78+(Math.random()*.04); pitch=0.95+(Math.random()*.06); vol=0.94;
+    } else {
+      // final whisper — very slow, very soft, deeply peaceful
+      rate=0.70+(Math.random()*.03); pitch=0.88+(Math.random()*.04); vol=0.82;
+    }
+
+    utt.rate=rate; utt.pitch=pitch; utt.volume=vol;
+
+    // natural pause between sentences
+    utt.onend=()=>{
+      i++;
+      let pause;
+      if(pct>.90) pause=700;       // long peaceful pauses at end
+      else if(pct>.75) pause=420;  // medium pauses winding down
+      else if(s.endsWith('…')||s.endsWith(',')) pause=280; // natural breath
+      else pause=140;              // normal flow
+      setTimeout(next, pause);
+    };
+    utt.onerror=()=>{ i++; next(); };
+    SYN.speak(utt);
+  }
+
+  speaking=true; paused=false;
+  document.getElementById('pbtn').textContent='⏸';
+  startPg(); next();
+}
+
+function stopVoice(){
+  SYN.cancel();
+  speaking=false; paused=false;
+  clearInterval(pgInt);
+  document.getElementById('pbtn').textContent='▶';
+}
+
+function startPg(){
+  clearInterval(pgInt);
+  pgInt=setInterval(()=>{
+    if(!speaking||paused) return;
+    const e=(Date.now()-storyStart)/1000;
+    document.getElementById('pgf').style.width=Math.min(e/storyDur*100,100)+'%';
+    document.getElementById('tcur').textContent=fmt(Math.round(e));
+  },300);
+}
+
+function fmt(s){ return Math.floor(s/60)+':'+(s%60<10?'0':'')+s%60; }
+
+// ═══════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════
+function copyStory(){
+  const t=document.getElementById('stitle').textContent+'\n\n'+document.getElementById('sbody').textContent;
+  navigator.clipboard.writeText(t)
+    .then(()=>showToast('Story copied! ✦'))
+    .catch(()=>showToast('Long-press text to copy manually'));
+}
+function newStory(){
+  stopVoice(); stopMusic();
+  document.getElementById('sout').classList.remove('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function closePw(){ document.getElementById('pw').classList.remove('on'); }
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),3200);
+}
+
+// ═══════════════════════════════════════
+// STRIPE PAYMENT
+// Replace STRIPE_PAYMENT_LINK with your actual Stripe link
+// ═══════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// GUMROAD PAYMENT LINKS — replace with your actual links
+// Step 1: gumroad.com → create 2 products → copy links
+// ═══════════════════════════════════════════════════════
+const GUMROAD_FAMILY = 'YOUR_GUMROAD_FAMILY_LINK'; // e.g. https://yourname.gumroad.com/l/dreamtales
+const GUMROAD_PACK   = 'YOUR_GUMROAD_PACK_LINK';   // e.g. https://yourname.gumroad.com/l/dreampack
+
+function goToCheckout(type){
+  const link=(type==='pack')?GUMROAD_PACK:GUMROAD_FAMILY;
+  if(link.startsWith('YOUR_')){
+    showToast('⚠️ Add your Gumroad links in the code first!');
+    return;
+  }
+  window.open(link,'_blank');
+}
+</script>
+</body>
+</html>
