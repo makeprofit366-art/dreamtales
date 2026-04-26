@@ -6,14 +6,11 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') { res.status(405).json({ error: 'Method not allowed' }); return; }
   try {
     const { prompt } = req.body;
-    const KEY = process.env.GROQ_API_KEY;
-    if (!KEY) { res.status(500).json({ error: 'GROQ_API_KEY not set' }); return; }
+    const GROQ_KEY = process.env.GROQ_API_KEY;
+    if (!GROQ_KEY) { res.status(500).json({ error: 'GROQ_API_KEY not set' }); return; }
     const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${KEY}`
-      },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_KEY}` },
       body: JSON.stringify({
         model: 'llama-3.3-70b-versatile',
         messages: [{ role: 'user', content: prompt }],
@@ -23,9 +20,6 @@ export default async function handler(req, res) {
     });
     const data = await r.json();
     if (data.error) { res.status(400).json({ error: data.error.message }); return; }
-    const text = data.choices?.[0]?.message?.content || '';
-    res.status(200).json({ text });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
+    res.status(200).json({ text: data.choices?.[0]?.message?.content || '' });
+  } catch (e) { res.status(500).json({ error: e.message }); }
 }
