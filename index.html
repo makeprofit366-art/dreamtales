@@ -88,22 +88,26 @@ select option{background:#181c32}
 .etag{display:inline-flex;align-items:center;gap:6px;background:rgba(249,168,212,.12);border:1px solid rgba(249,168,212,.22);color:var(--rose);font-size:.74rem;font-weight:800;padding:.3rem .8rem;border-radius:100px;margin-bottom:1rem}
 .sbody{font-family:var(--fs);font-size:1.07rem;line-height:2.1;color:#dce0fa;white-space:pre-wrap;margin-bottom:2.2rem}
 
+/* PLAYER */
 .player{background:var(--card2);border:1px solid var(--bdr);border-radius:14px;padding:1.6rem 1.7rem}
 .ptop{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.3rem;flex-wrap:wrap;gap:.8rem}
 .ptop h4{font-size:.75rem;font-weight:900;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
 .mtog{padding:.36rem .88rem;border-radius:8px;font-size:.78rem;font-weight:900;background:rgba(94,234,212,.09);border:1px solid rgba(94,234,212,.2);color:var(--teal);font-family:var(--fu);cursor:pointer;transition:background .2s}
 .mtog.on{background:rgba(94,234,212,.2);border-color:var(--teal)}
 .pctrl{display:flex;align-items:center;gap:1.2rem;margin-bottom:1.2rem}
-.pbtn{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;color:#09090f;font-size:1.2rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .15s}
+.pbtn{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;color:#09090f;font-size:1.2rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .15s;box-shadow:0 0 20px rgba(246,218,126,.2)}
 .pbtn:hover{transform:scale(1.1)}
+.pbtn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .pgw{flex:1}
 .pgbg{height:5px;background:rgba(255,255,255,.09);border-radius:100px;margin-bottom:.44rem}
-.pgf{height:100%;background:var(--gold);border-radius:100px;width:0%;transition:width .28s linear}
+.pgf{height:100%;background:var(--gold);border-radius:100px;width:0%;transition:width .3s linear}
 .times{display:flex;justify-content:space-between;font-size:.72rem;color:var(--mut)}
 .vrow{display:flex;align-items:center;gap:.85rem;flex-wrap:wrap;margin-top:1rem}
 .vrow label{font-size:.75rem;font-weight:900;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;white-space:nowrap}
 .vrow select{flex:1;min-width:190px;font-size:.85rem;padding:.44rem .8rem}
+.voice-status{font-size:.75rem;color:var(--mut);margin-top:.5rem;min-height:1rem}
 
+/* PRICING */
 .pricing{margin-top:5rem;text-align:center}
 .pricing h2{font-family:var(--fs);font-size:2.2rem;margin-bottom:.6rem}
 .psub{color:var(--mut);margin-bottom:3rem;line-height:1.8}
@@ -122,13 +126,11 @@ select option{background:#181c32}
 .planbtn{margin-top:1.7rem;width:100%;padding:.88rem;border-radius:9px;border:1px solid var(--bdr);background:var(--card2);color:var(--txt);font-family:var(--fu);font-size:.92rem;font-weight:900;cursor:pointer;transition:all .2s}
 .planbtn:hover{border-color:var(--lav);color:var(--lav)}
 .plan.hot .planbtn{background:linear-gradient(135deg,var(--lav),#7c3aed);border-color:transparent;color:#fff}
-.plan.hot .planbtn:hover{opacity:.87}
 footer{text-align:center;padding:2.2rem 0;color:var(--mut);font-size:.82rem;border-top:1px solid var(--bdr);margin-top:3.5rem}
 
-.toast{position:fixed;bottom:1.7rem;right:1.7rem;background:var(--teal);color:#09090f;padding:.7rem 1.3rem;border-radius:9px;font-weight:900;font-size:.88rem;opacity:0;pointer-events:none;transition:opacity .3s;z-index:9999}
+.toast{position:fixed;bottom:1.7rem;right:1.7rem;background:var(--teal);color:#09090f;padding:.7rem 1.3rem;border-radius:9px;font-weight:900;font-size:.88rem;opacity:0;pointer-events:none;transition:opacity .3s;z-index:9999;max-width:320px}
 .toast.on{opacity:1}
 
-/* PAYWALL */
 .pw{display:none;position:fixed;inset:0;background:rgba(9,11,24,.96);backdrop-filter:blur(12px);z-index:900;align-items:center;justify-content:center}
 .pw.on{display:flex}
 .pwcard{background:var(--card);border:1px solid rgba(246,218,126,.28);border-radius:var(--r);padding:2.8rem 2.4rem;max-width:470px;width:92%;text-align:center;animation:rise .4s ease}
@@ -146,18 +148,14 @@ footer{text-align:center;padding:2.2rem 0;color:var(--mut);font-size:.82rem;bord
 .pwbtn:hover{opacity:.87}
 .pwclose{background:none;border:none;color:var(--mut);font-family:var(--fu);font-size:.85rem;cursor:pointer;text-decoration:underline}
 
-/* UNLOCK MODAL */
 .unlock{display:none;position:fixed;inset:0;background:rgba(9,11,24,.97);backdrop-filter:blur(12px);z-index:950;align-items:center;justify-content:center}
 .unlock.on{display:flex}
 .unlockcard{background:var(--card);border:1px solid rgba(94,234,212,.28);border-radius:var(--r);padding:2.6rem 2.2rem;max-width:420px;width:92%;text-align:center;animation:rise .4s ease}
-.unlockcard .uicon{font-size:2.8rem;display:block;margin-bottom:.9rem}
 .unlockcard h2{font-family:var(--fs);font-size:1.6rem;color:var(--teal);margin-bottom:.6rem}
 .unlockcard p{color:var(--mut);font-size:.88rem;line-height:1.7;margin-bottom:1.4rem}
 .uinput{width:100%;padding:.85rem 1rem;background:var(--card2);border:2px solid rgba(94,234,212,.3);border-radius:10px;color:var(--txt);font-family:var(--fu);font-size:1.1rem;font-weight:800;text-align:center;letter-spacing:3px;outline:none;margin-bottom:.9rem;text-transform:uppercase}
 .uinput:focus{border-color:var(--teal)}
-.uinput::placeholder{letter-spacing:1px;font-size:.88rem;font-weight:600}
-.ubtn{width:100%;padding:1rem;background:linear-gradient(135deg,var(--teal),#0d9488);color:#09090f;border:none;border-radius:10px;font-family:var(--fu);font-size:1rem;font-weight:900;cursor:pointer;margin-bottom:.8rem;transition:opacity .2s}
-.ubtn:hover{opacity:.87}
+.ubtn{width:100%;padding:1rem;background:linear-gradient(135deg,var(--teal),#0d9488);color:#09090f;border:none;border-radius:10px;font-family:var(--fu);font-size:1rem;font-weight:900;cursor:pointer;margin-bottom:.8rem}
 .uclose{background:none;border:none;color:var(--mut);font-family:var(--fu);font-size:.82rem;cursor:pointer;text-decoration:underline}
 .umsg{font-size:.82rem;margin-top:.5rem;min-height:1.2rem}
 </style>
@@ -169,14 +167,14 @@ footer{text-align:center;padding:2.2rem 0;color:var(--mut);font-size:.82rem;bord
 <div class="wrap">
   <nav>
     <div class="logo">Dream<span>Tales</span> 🌙</div>
-    <div id="badge">✦ 10 Free Stories Left</div>
+    <div id="badge">✦ 3 Free Stories Left</div>
     <div class="unlocked-badge" id="unlockedBadge">✦ Unlimited ∞</div>
   </nav>
 
   <div class="hero">
     <span class="hmoon">🌙</span>
     <h1>Magical <em>Bedtime Stories</em><br/>for Every Child</h1>
-    <p class="hsub">AI stories in 11 languages — warm human voice reads aloud with theme music &amp; nature sounds. Loved by parents worldwide. 🌍</p>
+    <p class="hsub">AI stories in 11 languages — real human voice reads aloud with theme music &amp; nature sounds. Loved by parents worldwide 🌍</p>
   </div>
 
   <div class="card">
@@ -201,7 +199,7 @@ footer{text-align:center;padding:2.2rem 0;color:var(--mut);font-size:.82rem;bord
       </div>
       <div class="fld">
         <label>Language</label>
-        <select id="slang" onchange="loadVoices()">
+        <select id="slang">
           <option value="English" selected>🇬🇧 English</option>
           <option value="Telugu">🇮🇳 తెలుగు — Telugu</option>
           <option value="Hindi">🇮🇳 हिंदी — Hindi</option>
@@ -259,38 +257,48 @@ footer{text-align:center;padding:2.2rem 0;color:var(--mut);font-size:.82rem;bord
     </div>
     <div id="etag" class="etag"></div>
     <div class="sbody" id="sbody"></div>
+
     <div class="player">
       <div class="ptop">
-        <h4>🎙 Voice &amp; 🎵 Music — Press Play</h4>
+        <h4>🎙 Real Human Voice + 🎵 Music</h4>
         <button class="mtog on" id="mtog" onclick="toggleMusic()">🎵 Music ON</button>
       </div>
       <div class="pctrl">
-        <button class="pbtn" id="pbtn" onclick="toggleVoice()">▶</button>
+        <button class="pbtn" id="pbtn" onclick="toggleAudio()">▶</button>
         <div class="pgw">
           <div class="pgbg"><div class="pgf" id="pgf"></div></div>
           <div class="times"><span id="tcur">0:00</span><span id="ttot">0:00</span></div>
         </div>
       </div>
+      <div class="voice-status" id="vstatus">Press ▶ to hear the story in a real human voice</div>
       <div class="vrow">
-        <label>Voice</label>
-        <select id="vsel"></select>
+        <label>Voice Character</label>
+        <select id="vsel">
+          <option value="9BWtsMINqrJLrRacOk9x">Aria — Warm & Gentle (Best for bedtime)</option>
+          <option value="EXAVITQu4vr4xnSDxMaL">Sarah — Soft & Soothing</option>
+          <option value="FGY2WhTYpPnrIDTdsKH5">Laura — Calm & Clear</option>
+          <option value="XB0fDUnXU5powFXDhCwa">Charlotte — Warm & Nurturing</option>
+          <option value="pFZP5JQG7iQjIQuC4Bku">Lily — Sweet & Gentle</option>
+          <option value="iP95p4xoKVk53GoZ742B">Chris — Friendly Dad Voice</option>
+          <option value="TX3LPaxmHKxFdv7VOQHJ">Liam — Calm Storyteller</option>
+        </select>
       </div>
     </div>
   </div>
 
   <div class="pricing">
     <h2>Simple Pricing</h2>
-    <p class="psub">10 stories free for every family — no signup needed<br/>Upgrade for unlimited magical nights 🌙</p>
+    <p class="psub">3 stories free for every family — no signup needed<br/>Upgrade for unlimited magical nights 🌙</p>
     <div class="plans">
       <div class="plan">
         <h3>Free Forever</h3>
         <div class="amt">$0</div>
-        <div class="anote">10 stories free</div>
+        <div class="anote">3 stories free</div>
         <ul>
-          <li><strong>10 stories</strong> — no signup</li>
+          <li><strong>3 stories</strong> — no signup, always free</li>
           <li>All 11 languages</li>
-          <li>Voice + theme music</li>
-          <li>All 8 themes</li>
+          <li>Real human voice</li>
+          <li>Theme music + nature sounds</li>
         </ul>
         <button class="planbtn">Currently Active ✦</button>
       </div>
@@ -302,7 +310,7 @@ footer{text-align:center;padding:2.2rem 0;color:var(--mut);font-size:.82rem;bord
         <ul>
           <li><strong>Unlimited</strong> stories every night</li>
           <li>All 11 languages</li>
-          <li>Warm human voice</li>
+          <li>Real ElevenLabs human voice</li>
           <li>Theme music + nature sounds</li>
           <li>Works on all devices worldwide</li>
         </ul>
@@ -315,8 +323,7 @@ footer{text-align:center;padding:2.2rem 0;color:var(--mut);font-size:.82rem;bord
         <ul>
           <li><strong>20 stories</strong> — use anytime</li>
           <li>All 11 languages</li>
-          <li>Voice + music</li>
-          <li>No monthly fee</li>
+          <li>Real human voice</li>
           <li>Perfect as a gift 🎁</li>
         </ul>
         <button class="planbtn" onclick="goToCheckout('pack')">Buy Story Pack →</button>
@@ -330,8 +337,8 @@ footer{text-align:center;padding:2.2rem 0;color:var(--mut);font-size:.82rem;bord
 <div class="pw" id="pw">
   <div class="pwcard">
     <span class="icon">🌙</span>
-    <h2>Your 10 Free Stories Are Used!</h2>
-    <p>Pick a plan to keep the magic going — less than one coffee per month for unlimited nightly stories ✨</p>
+    <h2>Your 3 Free Stories Are Used!</h2>
+    <p>You've experienced 3 magical stories! Unlock unlimited nightly bedtime magic for your child ✨</p>
     <div class="pwplans">
       <div class="pwp hl" onclick="goToCheckout('family');closePw()">
         <div class="pp">$4.99</div><div class="pl">per month</div><div class="pd">Unlimited ✦</div>
@@ -340,19 +347,18 @@ footer{text-align:center;padding:2.2rem 0;color:var(--mut);font-size:.82rem;bord
         <div class="pp">$1.99</div><div class="pl">one-time</div><div class="pd">20 Stories</div>
       </div>
     </div>
-    <button class="pwbtn" onclick="goToCheckout('family');closePw()">💳 Buy Plan — Unlock Instantly</button>
+    <button class="pwbtn" onclick="goToCheckout('family');closePw()">💳 Unlock Stories Now</button>
     <br/><br/>
-    <button class="pwclose" onclick="closePw();openUnlock()">🔑 I already have an access code</button>
+    <button class="pwclose" onclick="closePw();openUnlock()">🔑 I have an access code</button>
   </div>
 </div>
 
-<!-- UNLOCK MODAL -->
+<!-- UNLOCK -->
 <div class="unlock" id="unlock">
   <div class="unlockcard">
-    <span class="uicon">🔑</span>
-    <h2>Enter Access Code</h2>
+    <h2>🔑 Enter Access Code</h2>
     <p>After purchase you receive an email with your access code. Enter it below to unlock unlimited stories.</p>
-    <input class="uinput" id="ucode" type="text" placeholder="Enter code e.g. DREAM-A1B2" maxlength="20" oninput="this.value=this.value.toUpperCase()"/>
+    <input class="uinput" id="ucode" type="text" placeholder="e.g. DREAM-A1B2C3" maxlength="20" oninput="this.value=this.value.toUpperCase()"/>
     <button class="ubtn" onclick="redeemCode()">✨ Unlock My Stories</button>
     <div class="umsg" id="umsg"></div>
     <button class="uclose" onclick="closeUnlock()">Back</button>
@@ -364,9 +370,7 @@ footer{text-align:center;padding:2.2rem 0;color:var(--mut);font-size:.82rem;bord
 <script>
 'use strict';
 
-// ═══════════════════════════════════════
-// STARS
-// ═══════════════════════════════════════
+// ── STARS ──
 (()=>{
   const c=document.getElementById('stars');
   for(let i=0;i<160;i++){
@@ -377,18 +381,24 @@ footer{text-align:center;padding:2.2rem 0;color:var(--mut);font-size:.82rem;bord
   }
 })();
 
-// ═══════════════════════════════════════
-// THEME DATA
-// ═══════════════════════════════════════
+// ── THEME DATA ──
 const THEMES={
-  adventure:{emoji:'🗺️🌲🏔️⚔️🦅🌄🐺🌿',scale:[261.6,293.7,329.6,392.0,440.0,523.3],bass:65.4,bassType:'triangle',nature:['wind','birds'],label:'Adventure',emotion:'Brave & Exciting'},
-  magic:{emoji:'✨🔮🌟🪄💫🌙🦄🌈',scale:[277.2,311.1,370.0,415.3,493.9,554.4],bass:69.3,bassType:'sine',nature:['wind','chimes'],label:'Magic',emotion:'Wondrous & Dreamy'},
-  space:{emoji:'🚀⭐🪐🌌👾🛸🌠💫',scale:[220.0,246.9,277.2,311.1,349.2,392.0],bass:55.0,bassType:'sine',nature:['deep_space'],label:'Space',emotion:'Mysterious & Vast'},
-  ocean:{emoji:'🌊🐠🐙🐬🌺🐋🦀🐚',scale:[264.0,297.0,330.0,352.0,396.0,440.0],bass:66.0,bassType:'triangle',nature:['waves','seagulls'],label:'Ocean',emotion:'Calm & Peaceful'},
-  jungle:{emoji:'🌿🦁🐘🦜🍃🐒🌺🦋',scale:[261.6,293.7,349.2,392.0,466.2,523.3],bass:65.4,bassType:'triangle',nature:['rain','birds'],label:'Jungle',emotion:'Alive & Adventurous'},
-  friendship:{emoji:'🤝💛🌈🫶🌸🦋🌻🎈',scale:[293.7,329.6,370.0,440.0,493.9,587.3],bass:73.4,bassType:'triangle',nature:['birds','wind'],label:'Friendship',emotion:'Warm & Joyful'},
-  kindness:{emoji:'💛🕊️🌻🌼☀️🌈🫶🌸',scale:[264.0,330.0,396.0,440.0,528.0,594.0],bass:66.0,bassType:'triangle',nature:['wind','chimes'],label:'Kindness',emotion:'Gentle & Loving'},
-  dreams:{emoji:'💫🌙☁️🦋🌠🌛✨🌃',scale:[220.0,261.6,311.1,370.0,415.3,493.9],bass:55.0,bassType:'sine',nature:['deep_space','wind'],label:'Dreams',emotion:'Soft & Sleepy'}
+  adventure:{emoji:'🗺️🌲🏔️⚔️🦅🌄🐺🌿',label:'Adventure',emotion:'Brave & Exciting',
+    music:'https://cdn.pixabay.com/audio/2022/10/16/audio_127264db4a.mp3'},
+  magic:{emoji:'✨🔮🌟🪄💫🌙🦄🌈',label:'Magic',emotion:'Wondrous & Dreamy',
+    music:'https://cdn.pixabay.com/audio/2022/10/25/audio_a40571571e.mp3'},
+  space:{emoji:'🚀⭐🪐🌌👾🛸🌠💫',label:'Space',emotion:'Mysterious & Vast',
+    music:'https://cdn.pixabay.com/audio/2022/08/02/audio_884fe92c21.mp3'},
+  ocean:{emoji:'🌊🐠🐙🐬🌺🐋🦀🐚',label:'Ocean',emotion:'Calm & Peaceful',
+    music:'https://cdn.pixabay.com/audio/2022/10/30/audio_a7de95e63f.mp3'},
+  jungle:{emoji:'🌿🦁🐘🦜🍃🐒🌺🦋',label:'Jungle',emotion:'Alive & Adventurous',
+    music:'https://cdn.pixabay.com/audio/2023/03/09/audio_a218a2bd44.mp3'},
+  friendship:{emoji:'🤝💛🌈🫶🌸🦋🌻🎈',label:'Friendship',emotion:'Warm & Joyful',
+    music:'https://cdn.pixabay.com/audio/2022/10/16/audio_127264db4a.mp3'},
+  kindness:{emoji:'💛🕊️🌻🌼☀️🌈🫶🌸',label:'Kindness',emotion:'Gentle & Loving',
+    music:'https://cdn.pixabay.com/audio/2022/10/25/audio_a40571571e.mp3'},
+  dreams:{emoji:'💫🌙☁️🦋🌠🌛✨🌃',label:'Dreams',emotion:'Soft & Sleepy',
+    music:'https://cdn.pixabay.com/audio/2022/08/02/audio_884fe92c21.mp3'}
 };
 const ETAGS={adventure:'⚔️ Brave & Exciting',magic:'✨ Wondrous & Dreamy',space:'🚀 Mysterious & Vast',ocean:'🌊 Calm & Peaceful',jungle:'🌿 Alive & Adventurous',friendship:'💛 Warm & Joyful',kindness:'🕊️ Gentle & Loving',dreams:'💫 Soft & Sleepy'};
 
@@ -396,11 +406,10 @@ let theme='adventure';
 document.querySelectorAll('.pill').forEach(p=>{
   p.onclick=()=>{
     document.querySelectorAll('.pill').forEach(x=>x.classList.remove('on'));
-    p.classList.add('on');
-    theme=p.dataset.t;
+    p.classList.add('on'); theme=p.dataset.t;
     document.body.className='t-'+theme;
     spawnFloaties(THEMES[theme].emoji);
-    if(musicPlaying) restartMusic();
+    if(bgMusic&&!bgMusic.paused){ bgMusic.pause(); startBgMusic(); }
   };
 });
 
@@ -416,36 +425,27 @@ function spawnFloaties(str){
 }
 spawnFloaties(THEMES.adventure.emoji);
 
-// ═══════════════════════════════════════
-// TRIAL + UNLOCK SYSTEM
-// ═══════════════════════════════════════
-let used=parseInt(localStorage.getItem('dt6')||'0');
-const LIMIT=10;
+// ── TRIAL + UNLOCK ──
+let used=parseInt(localStorage.getItem('dt8')||'0');
+const LIMIT=3;
 
-// ── ADD YOUR ACCESS CODES HERE ──────────────────────────────
-// When a customer pays on Gumroad, you manually add their code
-// Format: 'CODE': 'unlimited' or 'pack20'
-// Example codes below — replace with your own unique codes
+// ════════════════════════════════════════════
+// ADD YOUR ACCESS CODES HERE
+// When customer buys on Gumroad, add their code
+// ════════════════════════════════════════════
 const VALID_CODES={
   'DREAM-A1B2C3':'unlimited',
   'MAGIC-D4E5F6':'unlimited',
   'MOON-G7H8I9J':'unlimited',
   'STAR-K1L2M3N':'pack20',
-  'SUN-O4P5Q6R7':'pack20',
 };
-// ────────────────────────────────────────────────────────────
+// ════════════════════════════════════════════
 
 let unlocked=localStorage.getItem('dt_ul')||'';
 updateBadge();
-
 function updateBadge(){
-  if(unlocked){
-    document.getElementById('badge').style.display='none';
-    document.getElementById('unlockedBadge').style.display='inline-flex';
-  } else {
-    const left=Math.max(0,LIMIT-used);
-    document.getElementById('badge').textContent=left>0?`✦ ${left} Free ${left===1?'Story':'Stories'} Left`:'✦ Free Trial Ended';
-  }
+  if(unlocked){ document.getElementById('badge').style.display='none'; document.getElementById('unlockedBadge').style.display='inline-flex'; }
+  else{ const l=Math.max(0,LIMIT-used); document.getElementById('badge').textContent=l>0?`✦ ${l} Free ${l===1?'Story':'Stories'} Left`:'✦ Free Trial Ended'; }
 }
 function isUnlocked(){ return !!unlocked; }
 function openUnlock(){ document.getElementById('unlock').classList.add('on'); }
@@ -454,112 +454,149 @@ function redeemCode(){
   const code=document.getElementById('ucode').value.trim().toUpperCase();
   const msg=document.getElementById('umsg');
   if(!code){ msg.style.color='var(--rose)'; msg.textContent='⚠️ Please enter your code'; return; }
-  if(VALID_CODES[code]){
-    unlocked=code; localStorage.setItem('dt_ul',code);
-    msg.style.color='var(--teal)'; msg.textContent='✅ Unlocked! Enjoy unlimited stories 🌙';
-    updateBadge();
-    setTimeout(()=>{ closeUnlock(); closePw(); },1800);
+  if(VALID_CODES[code]){ unlocked=code; localStorage.setItem('dt_ul',code); msg.style.color='var(--teal)'; msg.textContent='✅ Unlocked! Enjoy unlimited stories 🌙'; updateBadge(); setTimeout(()=>{ closeUnlock(); closePw(); },1800); }
+  else{ msg.style.color='var(--rose)'; msg.textContent='❌ Invalid code. Check your purchase email.'; }
+}
+
+// ── PAYMENT ──
+// REPLACE THESE WITH YOUR GUMROAD LINKS
+const PAYMENT={ family:'YOUR_GUMROAD_FAMILY_LINK', pack:'YOUR_GUMROAD_PACK_LINK' };
+function goToCheckout(type){ const link=PAYMENT[type]||PAYMENT.family; if(link.startsWith('YOUR_')){ showToast('Payment coming soon! Contact us to purchase.'); return; } window.open(link,'_blank'); }
+function closePw(){ document.getElementById('pw').classList.remove('on'); }
+
+// ── BACKGROUND MUSIC (real MP3) ──
+let bgMusic=null;
+let musicOn=true;
+
+function startBgMusic(){
+  if(!musicOn) return;
+  const url=THEMES[theme].music;
+  if(bgMusic){ bgMusic.pause(); bgMusic=null; }
+  bgMusic=new Audio(url);
+  bgMusic.loop=true;
+  bgMusic.volume=0.18;
+  // fade in
+  bgMusic.volume=0;
+  bgMusic.play().catch(()=>{});
+  let vol=0;
+  const fadeIn=setInterval(()=>{
+    vol=Math.min(vol+0.01, 0.18);
+    bgMusic.volume=vol;
+    if(vol>=0.18) clearInterval(fadeIn);
+  },100);
+}
+
+function stopBgMusic(){
+  if(!bgMusic) return;
+  // fade out
+  let vol=bgMusic.volume;
+  const fadeOut=setInterval(()=>{
+    vol=Math.max(vol-0.02, 0);
+    if(bgMusic) bgMusic.volume=vol;
+    if(vol<=0){ clearInterval(fadeOut); if(bgMusic){ bgMusic.pause(); bgMusic=null; } }
+  },80);
+}
+
+function toggleMusic(){
+  musicOn=!musicOn;
+  const b=document.getElementById('mtog');
+  b.textContent=musicOn?'🎵 Music ON':'🎵 Music OFF';
+  b.classList.toggle('on',musicOn);
+  if(musicOn&&audioPlaying) startBgMusic();
+  else stopBgMusic();
+}
+
+// ── ELEVENLABS AUDIO ──
+let audioEl=null, audioPlaying=false, pgInt=null;
+
+async function toggleAudio(){
+  if(audioPlaying){
+    // pause
+    if(audioEl){ audioEl.pause(); }
+    audioPlaying=false;
+    document.getElementById('pbtn').textContent='▶';
+    clearInterval(pgInt);
+    stopBgMusic();
+  } else if(audioEl&&audioEl.src&&audioEl.paused&&audioEl.currentTime>0){
+    // resume
+    audioEl.play();
+    audioPlaying=true;
+    document.getElementById('pbtn').textContent='⏸';
+    startPg();
+    if(musicOn) startBgMusic();
   } else {
-    msg.style.color='var(--rose)'; msg.textContent='❌ Invalid code. Check your email.';
+    // generate new audio
+    await generateAudio();
   }
 }
 
-// ═══════════════════════════════════════
-// PAYMENT — GUMROAD LINKS
-// ── REPLACE THESE WITH YOUR GUMROAD LINKS ──
-// ═══════════════════════════════════════
-const PAYMENT={
-  family:'https://kiranlight25.gumroad.com/l/ewifl',  // e.g. https://yourname.gumroad.com/l/dreamtales
-  pack:'https://kiranlight25.gumroad.com/l/gljby'       // e.g. https://yourname.gumroad.com/l/dreampack
-};
-function goToCheckout(type){
-  const link=PAYMENT[type]||PAYMENT.family;
-  if(link.startsWith('YOUR_')){ showToast('Payment coming soon! Contact us to purchase.'); return; }
-  window.open(link,'_blank');
-}
-function closePw(){ document.getElementById('pw').classList.remove('on'); }
+async function generateAudio(){
+  const text=document.getElementById('sbody').textContent;
+  if(!text) return;
+  const voiceId=document.getElementById('vsel').value;
+  const btn=document.getElementById('pbtn');
+  btn.disabled=true;
+  document.getElementById('vstatus').textContent='🎙 Generating real human voice... (takes ~10 seconds)';
 
-// ═══════════════════════════════════════
-// VOICES
-// ═══════════════════════════════════════
-let voices=[];
-const SYN=window.speechSynthesis;
-const LCODES={English:['en'],Telugu:['te'],Hindi:['hi'],Tamil:['ta'],Kannada:['kn'],Spanish:['es'],French:['fr'],Arabic:['ar'],Portuguese:['pt'],German:['de'],Japanese:['ja']};
-const WARM=['samantha','karen','victoria','moira','zira','asha','lekha','heera','female','fiona','tessa','wavenet-a','wavenet-c','neural','flo'];
+  try{
+    const res=await fetch('/api/speak',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ text: text.slice(0,4500), voiceId }) // ElevenLabs free: 10k chars/month
+    });
+    if(!res.ok){
+      const err=await res.json();
+      throw new Error(err.error||'Voice generation failed');
+    }
+    const blob=await res.blob();
+    const url=URL.createObjectURL(blob);
+    if(audioEl){ audioEl.pause(); URL.revokeObjectURL(audioEl.src); }
+    audioEl=new Audio(url);
+    audioEl.onloadedmetadata=()=>{
+      document.getElementById('ttot').textContent=fmt(Math.round(audioEl.duration));
+    };
+    audioEl.ontimeupdate=()=>{
+      if(!audioEl.duration) return;
+      const pct=(audioEl.currentTime/audioEl.duration)*100;
+      document.getElementById('pgf').style.width=pct+'%';
+      document.getElementById('tcur').textContent=fmt(Math.round(audioEl.currentTime));
+    };
+    audioEl.onended=()=>{
+      audioPlaying=false;
+      btn.textContent='▶';
+      document.getElementById('pgf').style.width='100%';
+      stopBgMusic();
+      document.getElementById('vstatus').textContent='Story finished 🌙 Press ▶ to replay';
+    };
+    audioEl.play();
+    audioPlaying=true;
+    btn.textContent='⏸';
+    document.getElementById('vstatus').textContent='🎙 Playing — real human voice by ElevenLabs';
+    if(musicOn) startBgMusic();
 
-function loadVoices(){
-  const all=SYN.getVoices(); if(!all.length) return;
-  const lang=document.getElementById('slang').value;
-  const codes=LCODES[lang]||['en'];
-  let match=all.filter(v=>codes.some(c=>v.lang.toLowerCase().startsWith(c)));
-  if(!match.length){ match=all.filter(v=>v.lang.startsWith('en')); }
-  match.sort((a,b)=>{ const an=a.name.toLowerCase(),bn=b.name.toLowerCase(); return (WARM.some(w=>an.includes(w))?0:1)-(WARM.some(w=>bn.includes(w))?0:1); });
-  voices=match.slice(0,20);
-  const sel=document.getElementById('vsel'); sel.innerHTML='';
-  voices.forEach((v,i)=>{ const o=document.createElement('option'); o.value=i; o.textContent=v.name+' ('+v.lang+')'; sel.appendChild(o); });
-}
-if(SYN.onvoiceschanged!==undefined) SYN.onvoiceschanged=loadVoices;
-loadVoices(); setTimeout(loadVoices,800);
-
-// ═══════════════════════════════════════
-// AUDIO ENGINE
-// ═══════════════════════════════════════
-let AC=null,musicNodes=[],musicOn=true,musicPlaying=false,melTimer=null,droneTimer=null,natureTimers=[];
-
-function initAC(){ if(AC) return; AC=new(window.AudioContext||window.webkitAudioContext)(); }
-
-function playNote(freq,start,dur,vol,type='sine',detune=0){
-  if(!AC||!musicOn) return;
-  const osc=AC.createOscillator(),gain=AC.createGain();
-  osc.type=type; osc.frequency.setValueAtTime(freq,start);
-  if(detune) osc.detune.setValueAtTime(detune,start);
-  gain.gain.setValueAtTime(0,start);
-  gain.gain.linearRampToValueAtTime(vol,start+Math.min(0.6,dur*.3));
-  gain.gain.setValueAtTime(vol,start+dur-Math.min(1.2,dur*.4));
-  gain.gain.linearRampToValueAtTime(0,start+dur);
-  osc.connect(gain); gain.connect(AC.destination);
-  osc.start(start); osc.stop(start+dur+.3);
-  musicNodes.push(osc);
+  }catch(e){
+    document.getElementById('vstatus').textContent='⚠️ Voice error: '+e.message;
+    showToast('Voice error: '+e.message);
+    console.error(e);
+  }
+  btn.disabled=false;
 }
 
-function makeNoise(type,vol,dur,start){
-  if(!AC||!musicOn) return;
-  const buf=AC.createBuffer(1,AC.sampleRate*dur,AC.sampleRate);
-  const d=buf.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
-  const src=AC.createBufferSource(); src.buffer=buf;
-  const filter=AC.createBiquadFilter(),gain=AC.createGain();
-  if(type==='waves'){ filter.type='lowpass'; filter.frequency.value=280; const lfo=AC.createOscillator(),lg=AC.createGain(); lfo.frequency.value=0.18; lg.gain.value=vol*.55; lfo.connect(lg); lg.connect(gain.gain); lfo.start(start); lfo.stop(start+dur+.5); musicNodes.push(lfo); }
-  else if(type==='rain'){ filter.type='bandpass'; filter.frequency.value=1800; filter.Q.value=0.4; }
-  else if(type==='wind'){ filter.type='bandpass'; filter.frequency.value=400; filter.Q.value=0.6; const lfo=AC.createOscillator(),lg=AC.createGain(); lfo.frequency.value=0.08; lg.gain.value=vol*.4; lfo.connect(lg); lg.connect(gain.gain); lfo.start(start); lfo.stop(start+dur+.5); musicNodes.push(lfo); }
-  else if(type==='deep_space'){ filter.type='lowpass'; filter.frequency.value=90; }
-  else { filter.type='bandpass'; filter.frequency.value=1200; filter.Q.value=1; }
-  gain.gain.setValueAtTime(0,start); gain.gain.linearRampToValueAtTime(vol,start+2.5); gain.gain.setValueAtTime(vol,start+dur-2.5); gain.gain.linearRampToValueAtTime(0,start+dur);
-  src.connect(filter); filter.connect(gain); gain.connect(AC.destination);
-  src.start(start); src.stop(start+dur+.3); musicNodes.push(src);
+function startPg(){
+  clearInterval(pgInt);
+  pgInt=setInterval(()=>{
+    if(!audioEl||audioEl.paused) return;
+    const pct=(audioEl.currentTime/(audioEl.duration||1))*100;
+    document.getElementById('pgf').style.width=pct+'%';
+    document.getElementById('tcur').textContent=fmt(Math.round(audioEl.currentTime));
+  },300);
 }
+function fmt(s){ return Math.floor(s/60)+':'+(s%60<10?'0':'')+s%60; }
 
-function playBird(start){ if(!AC||!musicOn) return; const f=[1200,1400,1600,1800,2000][Math.floor(Math.random()*5)]; const osc=AC.createOscillator(),gain=AC.createGain(); osc.type='sine'; osc.frequency.setValueAtTime(f,start); osc.frequency.linearRampToValueAtTime(f*1.3,start+.08); osc.frequency.linearRampToValueAtTime(f,start+.16); gain.gain.setValueAtTime(0,start); gain.gain.linearRampToValueAtTime(.018,start+.04); gain.gain.linearRampToValueAtTime(0,start+.2); osc.connect(gain); gain.connect(AC.destination); osc.start(start); osc.stop(start+.3); musicNodes.push(osc); }
-function playChime(start){ if(!AC||!musicOn) return; playNote([1047,1175,1319,1568,1760][Math.floor(Math.random()*5)],start,.9,.012,'sine',Math.random()*10-5); }
-
-function startMusic(){
-  if(!AC||!musicOn) return; musicPlaying=true;
-  const T=THEMES[theme]; const scale=T.scale; let t=AC.currentTime+.5;
-  function drone(){ if(!musicOn||!musicPlaying) return; playNote(T.bass,t,8,.028,T.bassType,-4); playNote(T.bass*2,t,8,.016,'sine',+4); droneTimer=setTimeout(drone,7400); } drone();
-  function melody(){ if(!musicOn||!musicPlaying) return; const f=scale[Math.floor(Math.random()*scale.length)]; const oct=Math.random()>.6?2:1; playNote(f*oct,t,3.6,.048,'sine',Math.random()*8-4); if(Math.random()>.55){ const h=scale[(Math.floor(Math.random()*scale.length)+2)%scale.length]; playNote(h,t+.8,2.6,.026,'sine',Math.random()*6-3); } if(Math.random()>.75){ playNote(scale[Math.floor(Math.random()*scale.length)]*4,t+1.4,1.1,.014,'sine',0); } const gap=3.4+Math.random()*3; t+=gap; melTimer=setTimeout(melody,gap*850); } melody();
-  let nt=AC.currentTime+1;
-  function natureLoop(){ if(!musicOn||!musicPlaying) return; T.nature.forEach((n,idx)=>{ const off=idx*3; if(n==='waves') makeNoise('waves',.04,12,nt+off); if(n==='rain') makeNoise('rain',.022,12,nt+off); if(n==='wind') makeNoise('wind',.016,12,nt+off); if(n==='deep_space') makeNoise('deep_space',.03,12,nt+off); if(n==='chimes'){ for(let i=0;i<4;i++){ const ct=setTimeout(()=>playChime(AC.currentTime+.1),(off+Math.random()*10)*1000); natureTimers.push(ct); } } if(n==='birds'||n==='seagulls'){ for(let i=0;i<5;i++){ const bt=setTimeout(()=>playBird(AC.currentTime+.1),(off+1+Math.random()*9)*1000); natureTimers.push(bt); } } }); nt+=11; const nt2=setTimeout(natureLoop,10500); natureTimers.push(nt2); } natureLoop();
-}
-
-function stopMusic(){ musicPlaying=false; clearTimeout(melTimer); clearTimeout(droneTimer); natureTimers.forEach(t=>clearTimeout(t)); natureTimers=[]; musicNodes.forEach(n=>{try{n.stop()}catch(e){}}); musicNodes=[]; }
-function restartMusic(){ stopMusic(); if(musicOn) startMusic(); }
-function toggleMusic(){ musicOn=!musicOn; const b=document.getElementById('mtog'); b.textContent=musicOn?'🎵 Music ON':'🎵 Music OFF'; b.classList.toggle('on',musicOn); if(musicOn&&speaking){initAC();startMusic();}else stopMusic(); }
-
-// ═══════════════════════════════════════
-// GENERATE STORY
-// ═══════════════════════════════════════
-const LMSGS={Telugu:'మీ పిల్లవాడి కోసం మాయాజాల కథ అల్లుతున్నాను... 🌙',Hindi:'आपके बच्चे के लिए जादुई कहानी बुन रहे हैं... 🌙',Tamil:'உங்கள் குழந்தைக்காக மந்திர கதை நெய்கிறோம்... 🌙',Kannada:'ನಿಮ್ಮ ಮಗುವಿಗಾಗಿ ಮಾಯಾ ಕಥೆ ಹೆಣೆಯುತ್ತಿದ್ದೇವೆ... 🌙',Spanish:'Tejiendo un cuento mágico... 🌙',French:'Tissons votre histoire magique... 🌙',Arabic:'...نحيك قصة سحرية 🌙',German:'Deine magische Geschichte wird gewebt... 🌙',Japanese:'魔法の物語を紡いでいます... 🌙',Portuguese:'Tecendo sua história mágica... 🌙'};
-const LINSTR={English:`Write entirely in warm natural English.`,Telugu:`మొత్తం కథ తెలుగులో మాత్రమే రాయండి. ఒక్క ఆంగ్ల పదం కూడా వాడకండి. శీర్షిక తెలుగులో ఉండాలి.`,Hindi:`पूरी कहानी केवल हिंदी में — एक भी अंग्रेज़ी शब्द नहीं।`,Tamil:`முழு கதையும் தமிழில் மட்டும் — ஒரு ஆங்கில வார்த்தையும் வேண்டாம்.`,Kannada:`ಸಂಪೂರ್ಣ ಕಥೆ ಕನ್ನಡದಲ್ಲಿ ಮಾತ್ರ.`,Spanish:`Escribe toda la historia SOLO en español.`,French:`Écris toute l'histoire UNIQUEMENT en français.`,Arabic:`اكتب القصة كاملة باللغة العربية فقط.`,Portuguese:`Escreva toda a história SOMENTE em português.`,German:`Schreibe die gesamte Geschichte NUR auf Deutsch.`,Japanese:`物語全体を日本語のみで書いてください。`};
-const WC={short:'200 words (~2 min read)',medium:'480 words (~5 min read)',long:'900 words (~10 min read — multiple scenes, rich details, long peaceful ending)'};
+// ── GENERATE STORY ──
+const LMSGS={Telugu:'మీ పిల్లవాడి కోసం మాయాజాల కథ అల్లుతున్నాను... 🌙',Hindi:'आपके बच्चे के लिए जादुई कहानी बुन रहे हैं... 🌙',Tamil:'உங்கள் குழந்தைக்காக மந்திர கதை நெய்கிறோம்... 🌙',Spanish:'Tejiendo un cuento mágico... 🌙',French:'Tissons votre histoire magique... 🌙',Arabic:'...نحيك قصة سحرية 🌙',German:'Deine magische Geschichte wird gewebt... 🌙',Japanese:'魔法の物語を紡いでいます... 🌙',Portuguese:'Tecendo sua história mágica... 🌙'};
+const LINSTR={English:'Write entirely in warm natural English.',Telugu:'మొత్తం కథ తెలుగులో మాత్రమే రాయండి. ఒక్క ఆంగ్ల పదం కూడా వాడకండి.',Hindi:'पूरी कहानी केवल हिंदी में — एक भी अंग्रेज़ी शब्द नहीं।',Tamil:'முழு கதையும் தமிழில் மட்டும்.',Kannada:'ಸಂಪೂರ್ಣ ಕಥೆ ಕನ್ನಡದಲ್ಲಿ ಮಾತ್ರ.',Spanish:'Escribe toda la historia SOLO en español.',French:"Écris toute l'histoire UNIQUEMENT en français.",Arabic:'اكتب القصة كاملة باللغة العربية فقط.',Portuguese:'Escreva toda a história SOMENTE em português.',German:'Schreibe die gesamte Geschichte NUR auf Deutsch.',Japanese:'物語全体を日本語のみで書いてください。'};
+const WC={short:'200 words (~2 min)',medium:'480 words (~5 min)',long:'900 words (~10 min, multiple scenes, rich details, long peaceful ending)'};
 
 async function generate(){
   if(!isUnlocked()&&used>=LIMIT){ document.getElementById('pw').classList.add('on'); return; }
@@ -574,34 +611,57 @@ async function generate(){
   document.getElementById('ltxt').textContent=LMSGS[lang]||'Weaving your magical story... 🌙';
   document.getElementById('loader').classList.add('on');
   document.getElementById('sout').classList.remove('on');
-  stopVoice(); stopMusic();
+  // stop audio and music
+  if(audioEl){ audioEl.pause(); audioEl=null; }
+  audioPlaying=false;
+  stopBgMusic();
 
-  const prompt=`You are writing a bedtime story that will be READ ALOUD to a child. Write HOW IT SOUNDS — warm, human, tender.
+  // Generate unique seed so every story is different
+  const seeds=['moonrise','starfall','whisper','twinkle','wander','discover','laugh','dream','wonder','glow'];
+  const seed1=seeds[Math.floor(Math.random()*seeds.length)];
+  const seed2=seeds[Math.floor(Math.random()*seeds.length)];
+  const twist=['an unexpected friendship','a tiny secret','a surprising gift','a funny mistake','a hidden door','a magical ingredient','a lost treasure','a brave choice','a surprise helper','a forgotten wish'][Math.floor(Math.random()*10)];
+  const setting=['a cozy little village','a floating island','a enchanted forest','a sleepy mountain town','a sparkling cave','a secret garden','a friendly cloud kingdom','a warm lighthouse','a moonlit meadow','a tiny magical bakery'][Math.floor(Math.random()*10)];
+
+  const prompt=`You are writing a UNIQUE, NEVER-BEFORE-TOLD bedtime story READ ALOUD by a warm human voice.
 
 CHILD: "${name}", Age: ${age}
 CHARACTER: ${animal}
 THEME: ${T.label} (tone: ${T.emotion})
+SETTING: ${setting}
+SURPRISE ELEMENT: ${twist}
+STORY SEEDS (use these for inspiration, make it unique): ${seed1}, ${seed2}
 ${wish?'SPECIAL DETAIL: '+wish:''}
 LENGTH: ${WC[len]}
 
-RULES — follow every one:
-• Write like a loving grandparent whispering at bedside — real, warm, natural sentences
-• Use "${name}"'s name 3–4 times warmly
-• Add small human touches: a yawn, cozy blanket, heavy eyelids, a soft smile
-• Sensory details: soft moonlight, warm smells, quiet gentle sounds
-• Emotional journey: curiosity → small adventure → heart moment → peaceful sleep
-• Near the end: sentences get shorter. And softer. Like this.
-• Final paragraph: barely a whisper. Pure peace.
+STORY QUALITY — this must be EXTRAORDINARY:
+• Create a character with a real personality — quirky, lovable, funny or brave
+• Give the story an UNEXPECTED twist or surprise that makes children gasp with delight
+• Include ONE magical moment that feels genuinely wondrous — something the child has never heard before
+• Add a small funny moment — children love to giggle before sleep
+• Include a beautiful image the child will remember: a sky full of fireflies, a dragon that sneezes stars, a bunny with moonlight fur
+• The story must have a CLEAR EMOTIONAL HEART — a lesson felt, not told (friendship, courage, kindness, love)
+• Make parents tear up a little — add one small moment of pure love
+
+VOICE & PACING (for read-aloud):
+• Write like a warm loving grandparent whispering at bedside
+• Use "${name}"'s name 3–4 times warmly — make them feel like the hero
+• Natural sentences — the way a real person speaks, not a book
+• Near the end: sentences get shorter. Softer. Like a lullaby.
+• Final paragraph: barely a whisper. Pure peace. Eyes closing.
 • End with both ${name} and the character drifting to sleep together
-• ZERO scary content. ZERO loud action near the end.
 • Use "..." once or twice for natural breath pauses
+• ZERO scary content. ZERO loud action near the end.
 
 ${LINSTR[lang]||LINSTR.English}
 
+CRITICAL: Make this story completely ORIGINAL and DIFFERENT from any other story. 
+Never use overused plots. Be creative, surprising, and deeply heartwarming.
+
 FORMAT:
-Line 1: Story title only (no quotes, no label, no asterisks)
+Line 1: Creative story title only (no quotes, no label, no asterisks)
 Line 2: blank
-Lines 3+: Story paragraphs separated by blank lines`;
+Lines 3+: Story paragraphs, blank line between each`;
 
   try{
     const res=await fetch('/api/story',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})});
@@ -615,66 +675,23 @@ Lines 3+: Story paragraphs separated by blank lines`;
     document.getElementById('smeta').textContent=`For ${name} · ${T.label} · ${lang} · ${len}`;
     document.getElementById('etag').textContent=ETAGS[theme];
     document.getElementById('sbody').textContent=body;
-    document.getElementById('sout').classList.add('on');
-    const wds=body.split(/\s+/).length; storyDur=Math.round(wds/2.0);
-    document.getElementById('ttot').textContent=fmt(storyDur);
-    document.getElementById('tcur').textContent='0:00';
     document.getElementById('pgf').style.width='0%';
-    if(!isUnlocked()){ used++; localStorage.setItem('dt6',used); } updateBadge();
-    loadVoices(); initAC(); if(musicOn) startMusic();
+    document.getElementById('tcur').textContent='0:00';
+    document.getElementById('ttot').textContent='0:00';
+    document.getElementById('vstatus').textContent='Press ▶ to hear this story in a real human voice 🎙';
+    document.getElementById('pbtn').textContent='▶';
+    document.getElementById('sout').classList.add('on');
+    if(!isUnlocked()){ used++; localStorage.setItem('dt8',used); } updateBadge();
   }catch(e){ console.error(e); showToast('Something went wrong. Please try again.'); }
   document.getElementById('loader').classList.remove('on');
   btn.disabled=false;
   document.getElementById('sout').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// ═══════════════════════════════════════
-// VOICE ENGINE — human pacing
-// ═══════════════════════════════════════
-let utt=null,speaking=false,paused=false,pgInt=null,storyStart=0,storyDur=0;
-
-function toggleVoice(){
-  if(speaking&&!paused){ SYN.pause(); paused=true; document.getElementById('pbtn').textContent='▶'; clearInterval(pgInt); stopMusic(); }
-  else if(paused){ SYN.resume(); paused=false; document.getElementById('pbtn').textContent='⏸'; startPg(); if(musicOn){initAC();startMusic();} }
-  else startVoiceAndMusic();
-}
-
-function startVoiceAndMusic(){
-  stopVoice(); stopMusic();
-  const text=document.getElementById('sbody').textContent; if(!text) return;
-  if(musicOn){ initAC(); startMusic(); }
-  const raw=text.replace(/\.\.\./g,'…');
-  const sents=raw.match(/[^।.!?…\n]+[।.!?…\n]+/g)||[raw];
-  const total=sents.length; let i=0; storyStart=Date.now();
-  function next(){
-    if(!speaking) return;
-    if(i>=total){ speaking=false; paused=false; document.getElementById('pbtn').textContent='▶'; clearInterval(pgInt); document.getElementById('pgf').style.width='100%'; stopMusic(); return; }
-    const s=sents[i].trim().replace(/…/g,', '); if(!s){i++;next();return;}
-    utt=new SpeechSynthesisUtterance(s);
-    const vi=parseInt(document.getElementById('vsel').value||'0');
-    if(voices[vi]) utt.voice=voices[vi];
-    const pct=i/total;
-    const veryEnd=pct>.90, nearEnd=pct>.75;
-    utt.rate=veryEnd?.70:nearEnd?.75:.82;
-    utt.pitch=veryEnd?.88:nearEnd?.93:(0.96+Math.random()*.08);
-    utt.volume=veryEnd?.82:1.0;
-    utt.onend=()=>{ i++; setTimeout(next,veryEnd?620:nearEnd?380:130); };
-    utt.onerror=()=>{i++;next();};
-    SYN.speak(utt);
-  }
-  speaking=true; paused=false; document.getElementById('pbtn').textContent='⏸'; startPg(); next();
-}
-
-function stopVoice(){ SYN.cancel(); speaking=false; paused=false; clearInterval(pgInt); document.getElementById('pbtn').textContent='▶'; }
-function startPg(){ clearInterval(pgInt); pgInt=setInterval(()=>{ if(!speaking||paused) return; const e=(Date.now()-storyStart)/1000; document.getElementById('pgf').style.width=Math.min(e/storyDur*100,100)+'%'; document.getElementById('tcur').textContent=fmt(Math.round(e)); },300); }
-function fmt(s){ return Math.floor(s/60)+':'+(s%60<10?'0':'')+s%60; }
-
-// ═══════════════════════════════════════
-// HELPERS
-// ═══════════════════════════════════════
+// ── HELPERS ──
 function copyStory(){ const t=document.getElementById('stitle').textContent+'\n\n'+document.getElementById('sbody').textContent; navigator.clipboard.writeText(t).then(()=>showToast('Story copied! ✦')); }
-function newStory(){ stopVoice(); stopMusic(); document.getElementById('sout').classList.remove('on'); window.scrollTo({top:0,behavior:'smooth'}); }
-function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('on'); setTimeout(()=>t.classList.remove('on'),3200); }
+function newStory(){ if(audioEl){ audioEl.pause(); audioEl=null; } audioPlaying=false; stopBgMusic(); document.getElementById('sout').classList.remove('on'); window.scrollTo({top:0,behavior:'smooth'}); }
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('on'); setTimeout(()=>t.classList.remove('on'),3500); }
 </script>
 </body>
 </html>
