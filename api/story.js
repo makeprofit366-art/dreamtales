@@ -6,13 +6,13 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') { res.status(405).json({ error: 'Method not allowed' }); return; }
   try {
     const { prompt } = req.body;
-    const GROQ_KEY = process.env.GROQ_API_KEY;
-    if (!GROQ_KEY) { res.status(500).json({ error: 'API key missing' }); return; }
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    const KEY = process.env.GROQ_API_KEY;
+    if (!KEY) { res.status(500).json({ error: 'GROQ_API_KEY not set' }); return; }
+    const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${GROQ_KEY}`
+        'Authorization': `Bearer ${KEY}`
       },
       body: JSON.stringify({
         model: 'llama-3.3-70b-versatile',
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
         temperature: 0.9
       })
     });
-    const data = await response.json();
+    const data = await r.json();
     if (data.error) { res.status(400).json({ error: data.error.message }); return; }
     const text = data.choices?.[0]?.message?.content || '';
     res.status(200).json({ text });
